@@ -1,0 +1,1 @@
+export const APP_HOME_SCREEN_SEARCH_BAR_HEIGHT = 50;
