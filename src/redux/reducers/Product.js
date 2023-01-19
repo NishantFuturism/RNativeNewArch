@@ -1,7 +1,7 @@
 import Types from '../Types';
 
 const initialState = {
-  products: {},
+  products: [],
 };
 
 export default (state = initialState, action) => {

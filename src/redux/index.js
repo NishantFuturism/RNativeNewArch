@@ -9,11 +9,6 @@ import {PersistGate} from 'redux-persist/integration/react';
 
 const rootReducer = combineReducers({
   product: productsReducers,
-  // account: accountReducers,
-  // recipe: recipeReducers,
-  // onlineSlots: onlineSlotsReducers,
-  // cartData: cartReducer,
-  // home : homeReducer,
 });
 
 const persistConfig = {

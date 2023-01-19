@@ -1,17 +1,30 @@
 import Types from '../Types';
 import Network from '../../utility/Network';
 
-export const fetchProducts = () => {
+export const fetchProducts = (page = 1,per_page = 100,productsFromUI) => {
   return async dispatch => {
     // any async code you want!
     try {
-      // const response = await fetch(
-      //   Network.urlgetSearchDetailsPanIndia,
-      //   Network.get_UrlEncodedRequest_With_Headers(header),
-      // );
-      // const json = await response.json();
-      // console.log('jsonjsonjson', JSON.stringify(json));
+      const url = Network.users + '?' + 'page=' + page + '&' + 'per_page=' + per_page;
+      const response = await fetch(
+        url ,
+        {
+          method: 'GET',
+          headers: {
+          Accept: 'application/json',
+         'Content-Type': 'application/json',
+           },
+        }
+      );
+      const jsonResponse = await response.json();
       
+      if(response.status === 200){
+        dispatch({
+          type: Types.PRODUCTS.PRODUCT_LIST_SUCCESS,
+          payload: page > 1 ? productsFromUI.concat(jsonResponse) :  jsonResponse,
+        });
+      }
+
     } catch (error) {
       console.log(error);
       throw error;

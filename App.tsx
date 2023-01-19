@@ -22,6 +22,7 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import RNBootSplash from "react-native-bootsplash";
 import Redux from './src/redux';
+import ProductList from './src/screens/ProductList';
 
 
 
@@ -40,6 +41,9 @@ function App(): JSX.Element {
   return (
     <Redux>
       <Text style={{backgroundColor : 'red'}}>Hi There</Text>
+      <View style={{flex : 1,justifyContent : 'center',alignItems : 'center',backgroundColor : 'white'}}>
+      <ProductList/>
+      </View>
     </Redux>
      
   );
