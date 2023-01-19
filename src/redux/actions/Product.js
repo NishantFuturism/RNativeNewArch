@@ -19,6 +19,7 @@ export const fetchProducts = (page = 1,per_page = 100,productsFromUI) => {
       const jsonResponse = await response.json();
       
       if(response.status === 200){
+        console.log("page",page);
         dispatch({
           type: Types.PRODUCTS.PRODUCT_LIST_SUCCESS,
           payload: page > 1 ? productsFromUI.concat(jsonResponse) :  jsonResponse,

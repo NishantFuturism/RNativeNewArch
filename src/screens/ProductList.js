@@ -10,6 +10,7 @@ const ProductList = props => {
     const fetchedProducts = useSelector(state => state.product.products);
     const [pageNumber,setPageNumber] = useState(1);
     const [pageLimit,setPageLimit] = useState(100);
+    const [isIntialLoading,setIsIntialLoading] = useState(false);
     const [isLoadingMore,setIsLoadingMore] = useState(false);
     const keyExtractor = useCallback((item) => item.id.toString(),[]);
 
@@ -20,14 +21,14 @@ const ProductList = props => {
     }),[]);
 
     useEffect(() => {
-        console.log('inside first useEffect');
+        setIsIntialLoading(true);
         setPageNumber(1);
         getProductsList();    
       }, []);
 
     const getProductsList = () => {
           try {
-             dispatch(fetchProducts(pageNumber,pageLimit,fetchedProducts)).then(res => setIsLoadingMore(false));
+             dispatch(fetchProducts(pageNumber,pageLimit,fetchedProducts)).then(res => {setIsIntialLoading(false);console.log("res")} );
           } catch (error) {
             console.error(error);
           }
@@ -57,8 +58,10 @@ const ProductList = props => {
                     // refreshing={isMoreProdsLoading}
                     onMomentumScrollBegin={() => {
                     //   setIsMoreProdsLoading(true);
+                    setIsLoadingMore(false);
                       onEndReachedCalledDuringMomentum = false;
                     }}
+                    scrollEventThrottle={250}
                     onEndReached={() => {
                       console.log('inside onEndReached');
                       // if (isMoreProducts) {
@@ -66,10 +69,11 @@ const ProductList = props => {
 
                       //setProdIndex(1 + products.length);
                     //   console.log('inside onEndReached');
-                      if (!onEndReachedCalledDuringMomentum) {
-                        setIsLoadingMore(true);
+                      if (!onEndReachedCalledDuringMomentum && !isLoadingMore) {
+                        // setIsLoadingMore(true);
                         onEndReachedCalledDuringMomentum = true;
                         // offset = offset + 10;
+                        setIsLoadingMore(true);
                         setPageNumber(pageNumber + 1);
                         getProductsList();
                       }
@@ -79,7 +83,12 @@ const ProductList = props => {
                     ListEmptyComponent={RenderEmptyItem}
                     onEndReachedThreshold={0.5}
                     getItemLayout={getItemLayout}
-                    ListFooterComponent={renderFooterItem}
+                    ListFooterComponent={isLoadingMore ?  renderFooterItem : null}
+                    onRefresh={() => {
+                        setPageNumber(1);
+                        getProductsList();
+                    }}
+                    refreshing={isIntialLoading}
                   />
                 
         </View>
