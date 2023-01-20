@@ -1,11 +1,15 @@
-import React, { useCallback, useState,useEffect } from 'react';
+import React, { useCallback, useState,useEffect, useRef } from 'react';
 import { Image, View, Text, StyleSheet,TextInput,FlatList } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import ProductListItem from './ProductsListItem';
 import { clearSearchStore, fetchProductsByName } from '../redux/actions/Product';
+
+let debounceHandler = null;
+
 const Search = props => {
     const dispatch = useDispatch();
     const [searchText, onChangeSearchText] = useState('');
+    const didMount = useRef(false);
     const fetchedProductSearchedResult = useSelector(state => state.product.productSearchResult);
 
     const RenderEmptyItem = () => {
@@ -52,7 +56,19 @@ const Search = props => {
       
       useEffect(() => {
         if(searchText == '') dispatch(clearSearchStore());
-        if(searchText != '') getProductsBySearch();
+        
+        if (didMount.current) {
+            debounceHandler = setTimeout(() => {
+                if(searchText != '') getProductsBySearch();
+            }, 3000);
+            //cleanUp function
+            return () => {
+              clearTimeout(debounceHandler);
+            };
+          } else {
+            didMount.current = true;
+          }
+        
       }, [searchText]);
 
     return(
