@@ -6,12 +6,16 @@ import Colors from '../constants/Colors';
 import { fetchProducts } from '../redux/actions/Product';
 
 const ProductList = props => {
+    var onEndReachedCalledDuringMomentum = false;
     const dispatch = useDispatch();
     const fetchedProducts = useSelector(state => state.product.products);
     const [pageNumber,setPageNumber] = useState(1);
     const [pageLimit,setPageLimit] = useState(100);
+
     const [isIntialLoading,setIsIntialLoading] = useState(false);
     const [isLoadingMore,setIsLoadingMore] = useState(false);
+    const [isLoadingRefresh,setIsLoadingRefresh] = useState(false);
+    
     const keyExtractor = useCallback((item) => item.id.toString(),[]);
 
     const getItemLayout = useCallback((data,index) => ({
@@ -22,33 +26,42 @@ const ProductList = props => {
 
     useEffect(() => {
         setIsIntialLoading(true);
-        setPageNumber(1);
-        getProductsList();    
+        // setPageNumber(1);
+        // getProductsList();    
       }, []);
+ 
+      useEffect(() => {
+        // setIsLoadingMore(true);
+        // setPageNumber(pageNumber + 1);
+        getProductsList();
+      },[pageNumber])
 
     const getProductsList = () => {
           try {
-             dispatch(fetchProducts(pageNumber,pageLimit,fetchedProducts)).then(res => {setIsIntialLoading(false);console.log("res")} );
+             dispatch(fetchProducts(pageNumber,pageLimit,fetchedProducts)).then(res => {setIsIntialLoading(false);setIsLoadingRefresh(false);console.log("res")} );
           } catch (error) {
             console.error(error);
           }
       };
 
-      const renderFooterItem = () => {
+      const renderLoader = useCallback(() => {
         return(
             <View style={[styles.container, styles.horizontal]}>
             <ActivityIndicator size="large" color="#00ff00" />
             </View>
         )
-      }
+      },[]);
 
 
-    var onEndReachedCalledDuringMomentum = false;
     return (
         <>
         <View>
-                  <FlatList
+                  {isIntialLoading && ( <View style={{flex : 1,justifyContent : 'center',alignItems : 'center'}}>
+                    {renderLoader()}
+                  </View> )}
+                  {!isIntialLoading && (<FlatList
                     data={fetchedProducts}
+                    initialNumToRender={50}
                     // extraData={fetchedProducts}
                     renderItem={ProductListItem}
                     keyExtractor={keyExtractor}
@@ -61,7 +74,7 @@ const ProductList = props => {
                     setIsLoadingMore(false);
                       onEndReachedCalledDuringMomentum = false;
                     }}
-                    scrollEventThrottle={250}
+                    // scrollEventThrottle={250}
                     onEndReached={() => {
                       console.log('inside onEndReached');
                       // if (isMoreProducts) {
@@ -70,12 +83,13 @@ const ProductList = props => {
                       //setProdIndex(1 + products.length);
                     //   console.log('inside onEndReached');
                       if (!onEndReachedCalledDuringMomentum && !isLoadingMore) {
+                        console.log("inside onEndReachedMomentum");
                         // setIsLoadingMore(true);
                         onEndReachedCalledDuringMomentum = true;
                         // offset = offset + 10;
                         setIsLoadingMore(true);
                         setPageNumber(pageNumber + 1);
-                        getProductsList();
+                        // getProductsList();
                       }
                       // }
                       
@@ -83,13 +97,16 @@ const ProductList = props => {
                     ListEmptyComponent={RenderEmptyItem}
                     onEndReachedThreshold={0.5}
                     getItemLayout={getItemLayout}
-                    ListFooterComponent={isLoadingMore ?  renderFooterItem : null}
+                    ListFooterComponent={isLoadingMore ?  renderLoader : null}
                     onRefresh={() => {
+                      // setIsIntialLoading(true);
+                        setIsLoadingRefresh(true);
                         setPageNumber(1);
-                        getProductsList();
+                        // getProductsList();
                     }}
-                    refreshing={isIntialLoading}
-                  />
+                    refreshing={isLoadingRefresh}
+                    maxToRenderPerBatch={50}
+                  />)}
                 
         </View>
         </>
