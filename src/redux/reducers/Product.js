@@ -2,6 +2,7 @@ import Types from '../Types';
 
 const initialState = {
   products: [],
+  productSearchResult : []
 };
 
 export default (state = initialState, action) => {
@@ -13,6 +14,11 @@ export default (state = initialState, action) => {
         ...state,
         products: action.payload,
       };
+      case Types.PRODUCTS.PRODUCT_SEARCH_SUCCESS:
+        return {
+          ...state,
+          productSearchResult: action.payload,
+        }; 
     default:
       return state;
   }

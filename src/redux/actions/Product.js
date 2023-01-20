@@ -33,6 +33,38 @@ export const fetchProducts = (page = 1,per_page = 100,productsFromUI) => {
   };
 };
 
+export const fetchProductsByName = (inputValue = '') => {
+  return async dispatch => {
+    // any async code you want!
+    try {
+      const url = Network.searchUsersByName + inputValue;
+      const response = await fetch(
+        url ,
+        {
+          method: 'GET',
+          headers: {
+          Accept: 'application/json',
+         'Content-Type': 'application/json',
+           },
+        }
+      );
+      const jsonResponse = await response.json();
+      
+      if(response.status === 200){
+        console.log("userSearchResult",jsonResponse);
+        dispatch({
+          type: Types.PRODUCTS.PRODUCT_SEARCH_SUCCESS,
+          payload: jsonResponse,
+        });
+      }
+
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
+};
+
 
 
 

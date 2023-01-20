@@ -23,6 +23,7 @@ import {
 import RNBootSplash from "react-native-bootsplash";
 import Redux from './src/redux';
 import ProductList from './src/screens/ProductList';
+import Search from './src/components/Search';
 
 
 
@@ -42,7 +43,8 @@ function App(): JSX.Element {
     <Redux>
       <Text style={{backgroundColor : 'red'}}>Hi There</Text>
       <View style={{flex : 1,justifyContent : 'center',alignItems : 'center',backgroundColor : 'white'}}>
-      <ProductList/>
+      {/* <ProductList/> */}
+      <Search/>
       </View>
     </Redux>
      
