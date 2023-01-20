@@ -2,7 +2,7 @@ import React, { useCallback, useState,useEffect } from 'react';
 import { Image, View, Text, StyleSheet,TextInput,FlatList } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import ProductListItem from './ProductsListItem';
-import { fetchProductsByName } from '../redux/actions/Product';
+import { clearSearchStore, fetchProductsByName } from '../redux/actions/Product';
 const Search = props => {
     const dispatch = useDispatch();
     const [searchText, onChangeSearchText] = useState('');
@@ -51,6 +51,7 @@ const Search = props => {
       }),[]);
       
       useEffect(() => {
+        if(searchText == '') dispatch(clearSearchStore());
         if(searchText != '') getProductsBySearch();
       }, [searchText]);
 

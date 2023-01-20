@@ -41,7 +41,7 @@ function App(): JSX.Element {
 
   return (
     <Redux>
-      <Text style={{backgroundColor : 'red'}}>Hi There</Text>
+      {/* <Text style={{backgroundColor : 'red'}}>Hi There</Text> */}
       <View style={{flex : 1,justifyContent : 'center',alignItems : 'center',backgroundColor : 'white'}}>
       {/* <ProductList/> */}
       <Search/>

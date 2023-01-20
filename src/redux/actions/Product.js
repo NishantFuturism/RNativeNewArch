@@ -71,19 +71,16 @@ export const fetchProductsByName = (inputValue = '') => {
 
 
 
-// export const applySelectedFilters = filterObj => {
-//   return async dispatch => {
-//     // any async code you want!
-//     try {
-//       dispatch({ type: Types.PRODUCTS.FILTER_APPLY_SUCCESS, payload: filterObj });
-//     } catch (err) {
-//       dispatch({
-//         type: Types.PRODUCTS.FILTER_APPLY_FAILURE,
-//         payload: new Error(err),
-//       });
-//     }
-//   };
-// };
+export const clearSearchStore = () => {
+  return async dispatch => {
+    // any async code you want!
+    try {
+      dispatch({ type: Types.PRODUCTS.PRODUCT_SEARCH_SUCCESS, payload: [] });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
 
 
 
