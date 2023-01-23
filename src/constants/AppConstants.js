@@ -1,1 +1,3 @@
-export const APP_HOME_SCREEN_SEARCH_BAR_HEIGHT = 50;
+import { StatusBar,Platform } from "react-native";
+
+export const STATUS_BAR_HEIGHT = StatusBar.currentHeight;

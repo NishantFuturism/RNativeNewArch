@@ -24,6 +24,7 @@ import RNBootSplash from "react-native-bootsplash";
 import Redux from './src/redux';
 import ProductList from './src/screens/ProductList';
 import Search from './src/components/Search';
+import ScreenWrapper from './src/components/ScreenWrapper';
 
 
 
@@ -35,19 +36,18 @@ function App(): JSX.Element {
   };
 
   useEffect(() => {
-      RNBootSplash.hide({ fade: true, duration: 5000 });
+      RNBootSplash.hide();
       console.log("Bootsplash has been hidden successfully");
   }, []);
 
   return (
     <Redux>
-      {/* <Text style={{backgroundColor : 'red'}}>Hi There</Text> */}
-      <View style={{flex : 1,justifyContent : 'center',alignItems : 'center',backgroundColor : 'white'}}>
+      <ScreenWrapper disableScrollView={false}>
       {/* <ProductList/> */}
-      <Search/>
-      </View>
+      {/* <Search/> */}
+      <Text>sdfsdf</Text>
+      </ScreenWrapper>
     </Redux>
-     
   );
 }
 
