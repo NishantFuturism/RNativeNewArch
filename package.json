@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
-    "allow" : "sudo chmod -R 777 /Users/nishanti/Desktop/RN/futurismts/ios /Users/nishanti/Desktop/RN/futurismts/node_modules",
+    "allow": "sudo chmod -R 777 /Users/nishanti/Desktop/RN/futurismts/ios /Users/nishanti/Desktop/RN/futurismts/node_modules",
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
@@ -27,6 +27,7 @@
     "react-native-pager-view": "^5.4.25",
     "react-native-reanimated": "^2.8.0",
     "react-native-rename": "^3.2.7",
+    "react-native-responsive-screen": "^1.4.2",
     "react-native-safe-area-context": "^4.2.5",
     "react-native-screens": "^3.13.1",
     "react-native-simple-toast": "^1.1.3",
