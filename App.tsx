@@ -25,6 +25,8 @@ import Redux from './src/redux';
 import ProductList from './src/screens/ProductList';
 import Search from './src/components/Search';
 import ScreenWrapper from './src/components/ScreenWrapper';
+import FirebasePushNotification from './src/screens/FirebasePushNotification';
+import messaging from '@react-native-firebase/messaging';
 
 
 
@@ -36,16 +38,26 @@ function App(): JSX.Element {
   };
 
   useEffect(() => {
+    // getMsgToken();
       RNBootSplash.hide();
       console.log("Bootsplash has been hidden successfully");
   }, []);
+
+  const getMsgToken = async () => {
+    await messaging().registerDeviceForRemoteMessages();
+    const token = await messaging().getToken();
+    console.log('token=====>>>>>',token);
+  }
 
   return (
     <Redux>
       <ScreenWrapper disableScrollView={false}>
       {/* <ProductList/> */}
       {/* <Search/> */}
-      <Text>sdfsdf</Text>
+      {/* <Text>sdfsdf</Text> */}
+      <>
+      <FirebasePushNotification/>
+      </>
       </ScreenWrapper>
     </Redux>
   );

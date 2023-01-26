@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>513737620530-igq6md9vb4sbhtqh6r0upeu479ulf2se.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.513737620530-igq6md9vb4sbhtqh6r0upeu479ulf2se</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>513737620530-o94v3l4ad5abs0btsrpdg1a5406jfhpf.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDPCNjwGOhoFq0X17ZYDQzTTlEbQysEwIw</string>
+	<key>GCM_SENDER_ID</key>
+	<string>513737620530</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.reactjs.native.example.futurismts</string>
+	<key>PROJECT_ID</key>
+	<string>futurism-538eb</string>
+	<key>STORAGE_BUCKET</key>
+	<string>futurism-538eb.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:513737620530:ios:0b6e1fb2b199387d21902b</string>
+</dict>
+</plist>
