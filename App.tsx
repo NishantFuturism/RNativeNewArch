@@ -27,6 +27,7 @@ import Search from './src/components/Search';
 import ScreenWrapper from './src/components/ScreenWrapper';
 import FirebasePushNotification from './src/screens/FirebasePushNotification';
 import messaging from '@react-native-firebase/messaging';
+import AndroidNotifeeNotification from './src/screens/AndroidNotifeeNotification';
 
 
 
@@ -56,7 +57,8 @@ function App(): JSX.Element {
       {/* <Search/> */}
       {/* <Text>sdfsdf</Text> */}
       <>
-      <FirebasePushNotification/>
+      {/* <FirebasePushNotification/> */}
+      <AndroidNotifeeNotification/>
       </>
       </ScreenWrapper>
     </Redux>
