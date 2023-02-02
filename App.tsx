@@ -15,12 +15,15 @@ import {
   Text,
   useColorScheme,
   View,
+  Button
 } from 'react-native';
 
 import {
   Colors
 } from 'react-native/Libraries/NewAppScreen';
 import RNBootSplash from "react-native-bootsplash";
+import Checkout from './src/Checkout';
+import StripePayment from './src/StripePayment';
 
 
 
@@ -38,14 +41,19 @@ function App(): JSX.Element {
 
   return (
     <SafeAreaView style={backgroundStyle}>
+    
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
+        
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
-       <Text style={{backgroundColor : 'red'}}>Hi There</Text>
+       <Text style={{backgroundColor : 'red',marginBottom : 100}}>Hi There</Text>
+       <StripePayment>
+       <Checkout/>
+       </StripePayment>
       </ScrollView>
     </SafeAreaView>
   );
