@@ -15,7 +15,8 @@ import {
   Text,
   useColorScheme,
   View,
-  Button
+  Button,
+  Platform
 } from 'react-native';
 
 import {
@@ -24,6 +25,7 @@ import {
 import RNBootSplash from "react-native-bootsplash";
 import Checkout from './src/Checkout';
 import StripePayment from './src/StripePayment';
+import CheckoutIOS from './src/CheckoutIOS';
 
 
 
@@ -52,7 +54,8 @@ function App(): JSX.Element {
         style={backgroundStyle}>
        <Text style={{backgroundColor : 'red',marginBottom : 100}}>Hi There</Text>
        <StripePayment>
-       <Checkout/>
+
+       {Platform.OS === 'android' ? <Checkout/> : <CheckoutIOS/> }
        </StripePayment>
       </ScrollView>
     </SafeAreaView>
