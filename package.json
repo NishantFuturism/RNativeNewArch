@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "android": "react-native run-android",
-    "allow" : "sudo chmod -R 777 /Users/nishanti/Desktop/RN/futurismts/ios /Users/nishanti/Desktop/RN/futurismts/node_modules",
+    "runAndroid": "sudo npx react-native run-android",
+    "allow": "sudo chmod -R 777 /Users/nishanti/Desktop/RN/futurismts/ios /Users/nishanti/Desktop/RN/futurismts/node_modules",
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
@@ -13,6 +13,7 @@
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.15.17",
     "@react-native-masked-view/masked-view": "^0.2.6",
+    "@react-navigation/drawer": "^6.5.8",
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/stack": "^6.0.11",
     "moment": "^2.29.1",

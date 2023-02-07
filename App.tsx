@@ -8,6 +8,7 @@
 import React, { useEffect } from 'react';
 // import type {PropsWithChildren} from 'react';
 import {
+  Button,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -21,10 +22,12 @@ import {
   Colors
 } from 'react-native/Libraries/NewAppScreen';
 import RNBootSplash from "react-native-bootsplash";
-
+import ReusableDrawer from './src/ReusableDrawer';
+import 'react-native-gesture-handler';
 
 
 function App(): JSX.Element {
+    
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
@@ -37,17 +40,11 @@ function App(): JSX.Element {
   }, []);
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-       <Text style={{backgroundColor : 'red'}}>Hi There</Text>
-      </ScrollView>
-    </SafeAreaView>
+    
+       <ReusableDrawer/>
+
+      
+      
   );
 }
 
