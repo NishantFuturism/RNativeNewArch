@@ -86,12 +86,13 @@ const Search = props => {
                   borderWidth : 1,
                   marginVertical : 10
                 }}
+                accessibilityLabel="search input"
                 // ref={inputEl}
                 placeholderTextColor={'#757575'}
                 onChangeText={onChangeSearchText}
                 value={searchText}
                 placeholder="Search"
-                keyboardType="default"
+                keyboardType="phone-pad"
                 // autoFocus={inputEl}
                 // onSubmitEditing={Keyboard.dismiss}
                 // ref={textareaRef}
