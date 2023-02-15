@@ -6,7 +6,8 @@ import { clearSearchStore, fetchProductsByName } from '../redux/actions/Product'
 
 let debounceHandler = null;
 
-const Search = props => {
+const Search = ({ dispatcher }) => {
+    
     const dispatch = useDispatch();
     const [searchText, onChangeSearchText] = useState('');
     const didMount = useRef(false);
@@ -20,14 +21,18 @@ const Search = props => {
         )
     }
 
-    const getProductsBySearch = () => {
+
+
+    const getProductsBySearch = async (name) => {
         try {
-           dispatch(fetchProductsByName(searchText)).then(res => {console.log("res")} );
+         await  dispatch(fetchProductsByName(name || searchText)).then(() => {console.log("res")} );
         } catch (error) {
           console.error(error);
         }
     };
-    
+    if(dispatcher){
+      dispatcher(getProductsBySearch);
+    }
     const ItemDivider = () => {
         return (
             <View style={{ height: 1,
