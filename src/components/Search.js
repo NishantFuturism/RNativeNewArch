@@ -76,19 +76,19 @@ const Search = props => {
         <TextInput
                 style={{
                   width: '60%',
-                  height: '10%',
-                  backgroundColor: 'transparent',
+                  height: 55,
+                  // backgroundColor: 'transparent',
                   color: 'black',
                   fontSize: 16,
                 //   fontFamily: 'CeraPRO-Regular',
-                  padding : 10,
+                  // padding : 10,
                   borderColor : 'black',
                   borderWidth : 1,
                   marginVertical : 10
                 }}
                 accessibilityLabel="search input"
                 // ref={inputEl}
-                placeholderTextColor={'#757575'}
+                placeholderTextColor={'red'}
                 onChangeText={onChangeSearchText}
                 value={searchText}
                 placeholder="Search"
