@@ -10,7 +10,7 @@ const ProductList = props => {
     const dispatch = useDispatch();
     const fetchedProducts = useSelector(state => state.product.products);
     const [pageNumber,setPageNumber] = useState(1);
-    const [pageLimit,setPageLimit] = useState(100);
+    const [pageLimit,setPageLimit] = useState(10);
 
     const [isIntialLoading,setIsIntialLoading] = useState(false);
     const [isLoadingMore,setIsLoadingMore] = useState(false);
@@ -60,6 +60,7 @@ const ProductList = props => {
                     {renderLoader()}
                   </View> )}
                   {!isIntialLoading && (<FlatList
+                    showsVerticalScrollIndicator={false}
                     data={fetchedProducts}
                     initialNumToRender={50}
                     // extraData={fetchedProducts}
