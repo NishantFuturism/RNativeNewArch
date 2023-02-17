@@ -1,6 +1,6 @@
 #import "AppDelegate.h"
 #import "RNBootSplash.h"
-
+#import <Firebase.h>
 #import <React/RCTBundleURLProvider.h>
 
 @implementation AppDelegate
@@ -12,7 +12,7 @@
 //  return [super application:application didFinishLaunchingWithOptions:launchOptions];
   
     [super application:application didFinishLaunchingWithOptions:launchOptions];
-
+    [FIRApp configure];
     [RNBootSplash initWithStoryboard:@"BootSplash" rootView:self.window.rootViewController.view];
 
     return YES;
