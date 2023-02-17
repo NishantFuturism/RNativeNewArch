@@ -9,8 +9,8 @@ const AndroidNotifeeNotification = props => {
 
         async function onCreateTriggerNotification() {
             const date = new Date(Date.now());
-            date.setHours(23);
-            date.setMinutes(1);
+            date.setHours(15);
+            date.setMinutes(30);
 
             const channelId = await notifee.createChannel({
                 id: 'default',
@@ -20,13 +20,13 @@ const AndroidNotifeeNotification = props => {
             // Create a time-based trigger
             const trigger = {
               type: TriggerType.TIMESTAMP,
-              timestamp: date.getTime(), // fire at 11:10am (10 minutes before meeting)
+              timestamp:  Date.now() + 1000, // fire at 11:10am (10 minutes before meeting)
             };
         
             // Create a trigger notification
             await notifee.createTriggerNotification(
               {
-                title: 'Meeting with Jane',
+                title: 'Meeting with Gina',
                 body: 'Today at 11:00pm',
                 android: {
                   channelId: channelId,
