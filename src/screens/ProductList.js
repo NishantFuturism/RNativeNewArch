@@ -48,6 +48,12 @@ const ProductList = props => {
         )
       },[]);
 
+      const configuration = {
+        enableLazyLoading : true,
+        enablePullToRefresh : true,
+        isItemDimensionDynamic : true
+      }
+
 
     return (
         <>
@@ -62,6 +68,7 @@ const ProductList = props => {
                     itemToRender={ProductListItem}
                     keyExtract={keyExtractor}
                     itemDivider={() => <ItemDivider />}
+                    config={configuration}
                     scrollBegin={() => {
                       onEndReachedCalledDuringMomentum = false;
                     }}

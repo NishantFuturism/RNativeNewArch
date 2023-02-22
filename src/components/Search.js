@@ -3,6 +3,7 @@ import { Image, View, Text, StyleSheet,TextInput,FlatList } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import ProductListItem from './ProductsListItem';
 import { clearSearchStore, fetchProductsByName } from '../redux/actions/Product';
+import ReusableFlatlist from './ReusableFlatlist';
 
 let debounceHandler = null;
 
@@ -71,6 +72,12 @@ const Search = props => {
         
       }, [searchText]);
 
+      const configuration = {
+        enableLazyLoading : false,
+        enablePullToRefresh : false,
+        isItemDimensionDynamic : false
+      }
+
     return(
         <>
         <TextInput
@@ -98,14 +105,25 @@ const Search = props => {
                 // ref={textareaRef}
                 // onFocus={(e) => e.persist()}
               />
-        <FlatList
+        {/* <FlatList
             data={fetchedProductSearchedResult}
             renderItem={ProductListItem}
             keyExtractor={keyExtractor}
             ItemSeparatorComponent={() => <ItemDivider />}
-            ListEmptyComponent={RenderEmptyItem}
-            getItemLayout={getItemLayout}
-          />
+          /> */}
+
+
+                   <ReusableFlatlist 
+                    data={fetchedProductSearchedResult}
+                    // initialNumToRender={50}
+                    itemToRender={ProductListItem}
+                    keyExtract={keyExtractor}
+                    itemDivider={() => <ItemDivider />}
+                    config={configuration}
+                    getItemStaticDimension={{height : 100}}
+                    maxToRenderPerBatch={50}
+                     />
+
           </>
     )
 }

@@ -36,20 +36,20 @@ const ReusableFlatlist = (props) => {
                     keyExtractor={props.keyExtract ? props.keyExtract : null}
                     ItemSeparatorComponent={props.itemDivider ? props.itemDivider : null}
                     onMomentumScrollBegin={() => {
-                       props.scrollBegin();
+                        if(props.config.enableLazyLoading) props.scrollBegin();
                     }}
                     // scrollEventThrottle={250}
                     onEndReached={() => {
-                     props.onBottomReached();
+                        if(props.config.enableLazyLoading)  props.onBottomReached();
                     }}
                     ListEmptyComponent={RenderEmptyItem}
                     onEndReachedThreshold={0.5}
-                    getItemLayout={props.isItemDimensionDynamic === true ? getItemLayout : null}
+                    getItemLayout={props.config.isItemDimensionDynamic ? getItemLayout : null}
                     ListFooterComponent={props.isLoadingMore ? props.renderLoaderComponent : null}
                     onRefresh={() => {
-                     props.onRefresh();
+                        if(props.config.enablePullToRefresh) props.onRefresh();
                     }}
-                    refreshing={props.refreshing}
+                    refreshing={props.config.enablePullToRefresh ? props.refreshing : false}
                     maxToRenderPerBatch={props.maxToRenderPerBatch ? props.maxToRenderPerBatch : 50}
                   />
    )
