@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import {Text,View,StyleSheet, FlatList, ActivityIndicatorComponent, ActivityIndicator} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import ProductListItem from '../components/ProductsListItem';
+import ReusableFlatlist from '../components/ReusableFlatlist';
 import Colors from '../constants/Colors';
 import { fetchProducts } from '../redux/actions/Product';
 
@@ -10,7 +11,7 @@ const ProductList = props => {
     const dispatch = useDispatch();
     const fetchedProducts = useSelector(state => state.product.products);
     const [pageNumber,setPageNumber] = useState(1);
-    const [pageLimit,setPageLimit] = useState(100);
+    const [pageLimit,setPageLimit] = useState(10);
 
     const [isIntialLoading,setIsIntialLoading] = useState(false);
     const [isLoadingMore,setIsLoadingMore] = useState(false);
@@ -18,11 +19,6 @@ const ProductList = props => {
     
     const keyExtractor = useCallback((item) => item.id.toString(),[]);
 
-    const getItemLayout = useCallback((data,index) => ({
-        length : 100,
-        offset : 100 * index,
-        index
-    }),[]);
 
     useEffect(() => {
         setIsIntialLoading(true);
@@ -38,7 +34,7 @@ const ProductList = props => {
 
     const getProductsList = () => {
           try {
-             dispatch(fetchProducts(pageNumber,pageLimit,fetchedProducts)).then(res => {setIsIntialLoading(false);setIsLoadingRefresh(false);console.log("res")} );
+             dispatch(fetchProducts(pageNumber,pageLimit,fetchedProducts)).then(res => {setIsIntialLoading(false);setIsLoadingRefresh(false);setIsLoadingMore(false);console.log("res")} );
           } catch (error) {
             console.error(error);
           }
@@ -59,54 +55,39 @@ const ProductList = props => {
                   {isIntialLoading && ( <View style={{flex : 1,justifyContent : 'center',alignItems : 'center'}}>
                     {renderLoader()}
                   </View> )}
-                  {!isIntialLoading && (<FlatList
+
+                  {!isIntialLoading && (<ReusableFlatlist 
                     data={fetchedProducts}
                     initialNumToRender={50}
-                    // extraData={fetchedProducts}
-                    renderItem={ProductListItem}
-                    keyExtractor={keyExtractor}
-                    // getItemCount={getItemCount}
-                    // getItem={getItem}
-                    ItemSeparatorComponent={() => <ItemDivider />}
-                    // refreshing={isMoreProdsLoading}
-                    onMomentumScrollBegin={() => {
-                    //   setIsMoreProdsLoading(true);
-                    setIsLoadingMore(false);
+                    itemToRender={ProductListItem}
+                    keyExtract={keyExtractor}
+                    itemDivider={() => <ItemDivider />}
+                    scrollBegin={() => {
                       onEndReachedCalledDuringMomentum = false;
                     }}
-                    // scrollEventThrottle={250}
-                    onEndReached={() => {
-                      console.log('inside onEndReached');
-                      // if (isMoreProducts) {
-                      // setIsMoreProdsLoading(true);
-
-                      //setProdIndex(1 + products.length);
-                    //   console.log('inside onEndReached');
-                      if (!onEndReachedCalledDuringMomentum && !isLoadingMore) {
-                        console.log("inside onEndReachedMomentum");
-                        // setIsLoadingMore(true);
+                    onBottomReached={() => {
+                      if (!onEndReachedCalledDuringMomentum && !isLoadingMore && fetchedProducts.length > 0) {
                         onEndReachedCalledDuringMomentum = true;
-                        // offset = offset + 10;
                         setIsLoadingMore(true);
                         setPageNumber(pageNumber + 1);
-                        // getProductsList();
                       }
-                      // }
-                      
                     }}
-                    ListEmptyComponent={RenderEmptyItem}
-                    onEndReachedThreshold={0.5}
-                    getItemLayout={getItemLayout}
+                    getItemStaticDimension={{height : 100}}
+                    isItemDimensionDynamic={false}
                     ListFooterComponent={isLoadingMore ?  renderLoader : null}
+                    renderLoaderComponent={renderLoader}
+                    isLoadingMore={isLoadingMore}
                     onRefresh={() => {
-                      // setIsIntialLoading(true);
+                      if(pageNumber > 1){
                         setIsLoadingRefresh(true);
                         setPageNumber(1);
-                        // getProductsList();
+                      }
+                       
                     }}
                     refreshing={isLoadingRefresh}
                     maxToRenderPerBatch={50}
-                  />)}
+                     /> )}
+                  
                 
         </View>
         </>
@@ -139,6 +120,7 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'space-around',
       padding: 10,
+      // marginBottom : 100
     },
   });
 
