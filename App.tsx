@@ -21,6 +21,7 @@ import {
   Colors
 } from 'react-native/Libraries/NewAppScreen';
 import RNBootSplash from "react-native-bootsplash";
+import NetworkManager from './src/NetworkManager';
 
 
 
@@ -33,6 +34,7 @@ function App(): JSX.Element {
 
   useEffect(() => {
       RNBootSplash.hide({ fade: true, duration: 5000 });
+      // NetworkManager();
       console.log("Bootsplash has been hidden successfully");
   }, []);
 
