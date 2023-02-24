@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import ProductListItem from './ProductsListItem';
 import { clearSearchStore, fetchProductsByName } from '../redux/actions/Product';
 import ReusableFlatlist from './ReusableFlatlist';
+import { ProductItemConstants } from '../constants/ProductItemConstants';
 
 let debounceHandler = null;
 
@@ -75,7 +76,20 @@ const Search = props => {
       const configuration = {
         enableLazyLoading : false,
         enablePullToRefresh : false,
-        isItemDimensionDynamic : false
+        isItemDimensionDynamic : false,
+        listView : true,
+        gridView : false,
+        data:fetchedProductSearchedResult,
+        initialNumToRender : 50,
+        keyExtract : keyExtractor,
+        itemDivider : ItemDivider,
+        renderLoaderComponent : renderLoader,
+        isLoadingMore : false,
+        refreshing : false,
+        maxToRenderPerBatch : 50,
+        getItemStaticDimension : {height : 100},
+        ListFooterComponent : null,
+        itemToRender : ProductItemConstants,
       }
 
     return(
@@ -99,7 +113,7 @@ const Search = props => {
                 onChangeText={onChangeSearchText}
                 value={searchText}
                 placeholder="Search"
-                keyboardType="phone-pad"
+                keyboardType="default"
                 // autoFocus={inputEl}
                 // onSubmitEditing={Keyboard.dismiss}
                 // ref={textareaRef}
@@ -114,14 +128,7 @@ const Search = props => {
 
 
                    <ReusableFlatlist 
-                    data={fetchedProductSearchedResult}
-                    // initialNumToRender={50}
-                    itemToRender={ProductListItem}
-                    keyExtract={keyExtractor}
-                    itemDivider={() => <ItemDivider />}
                     config={configuration}
-                    getItemStaticDimension={{height : 100}}
-                    maxToRenderPerBatch={50}
                      />
 
           </>
