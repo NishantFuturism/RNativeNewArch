@@ -26,17 +26,23 @@ const ReusableFlatlist = (props) => {
             offset :  props.isItemDimensionDynamic === true ? props.getItemStaticDimension.height : 100 * index,
             index
         }),[]);
+
+      
     
 
    return(
                    <FlatList
-                    data={props.data ? props.data : []}
-                    initialNumToRender={props.initialNumToRender ? props.initialNumToRender :  10}
-                    renderItem={props.itemToRender ? props.itemToRender : null }
-                    keyExtractor={props.keyExtract ? props.keyExtract : null}
-                    ItemSeparatorComponent={props.itemDivider ? props.itemDivider : null}
+                    horizontal={false}
+                    data={props.config.data ? props.config.data : []}
+                    contentContainerStyle={{alignItems : 'center'}}
+                    style={{marginBottom : 30}}
+                    numColumns={props.config.gridView ? 2 : 1}
+                    initialNumToRender={props.config.initialNumToRender ? props.config.initialNumToRender :  10}
+                    renderItem={props.config.itemToRender ? props.config.listView ? props.config.itemToRender.view.list : props.config.itemToRender.view.grid : null}
+                    keyExtractor={props.config.keyExtract ? props.config.keyExtract : null}
+                    ItemSeparatorComponent={props.config.itemDivider ? props.config.itemDivider : null}
                     onMomentumScrollBegin={() => {
-                        if(props.config.enableLazyLoading) props.scrollBegin();
+                        if(props.config.enableLazyLoading) props.scrollBegin();  
                     }}
                     // scrollEventThrottle={250}
                     onEndReached={() => {
@@ -45,12 +51,12 @@ const ReusableFlatlist = (props) => {
                     ListEmptyComponent={RenderEmptyItem}
                     onEndReachedThreshold={0.5}
                     getItemLayout={props.config.isItemDimensionDynamic ? getItemLayout : null}
-                    ListFooterComponent={props.isLoadingMore ? props.renderLoaderComponent : null}
+                    ListFooterComponent={props.config.isLoadingMore ? props.config.renderLoaderComponent : null}
                     onRefresh={() => {
                         if(props.config.enablePullToRefresh) props.onRefresh();
                     }}
-                    refreshing={props.config.enablePullToRefresh ? props.refreshing : false}
-                    maxToRenderPerBatch={props.maxToRenderPerBatch ? props.maxToRenderPerBatch : 50}
+                    refreshing={props.config.enablePullToRefresh ? props.config.refreshing : false}
+                    maxToRenderPerBatch={props.config.maxToRenderPerBatch ? props.config.maxToRenderPerBatch : 50}
                   />
    )
 

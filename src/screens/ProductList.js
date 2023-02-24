@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {Text,View,StyleSheet, FlatList, ActivityIndicatorComponent, ActivityIndicator} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import ProductListItem from '../components/ProductsListItem';
 import ReusableFlatlist from '../components/ReusableFlatlist';
 import Colors from '../constants/Colors';
+import { ProductItemConstants } from '../constants/ProductItemConstants';
 import { fetchProducts } from '../redux/actions/Product';
 
 const ProductList = props => {
@@ -51,7 +51,20 @@ const ProductList = props => {
       const configuration = {
         enableLazyLoading : true,
         enablePullToRefresh : true,
-        isItemDimensionDynamic : true
+        isItemDimensionDynamic : false,
+        listView : false,
+        gridView : true,
+        data:fetchedProducts,
+        initialNumToRender : 50,
+        keyExtract : keyExtractor,
+        itemDivider : ItemDivider,
+        renderLoaderComponent : renderLoader,
+        isLoadingMore : isLoadingMore,
+        refreshing : isLoadingRefresh,
+        maxToRenderPerBatch : 50,
+        getItemStaticDimension : {height : 100},
+        ListFooterComponent : isLoadingMore ?  renderLoader : null,
+        itemToRender : ProductItemConstants,
       }
 
 
@@ -63,11 +76,6 @@ const ProductList = props => {
                   </View> )}
 
                   {!isIntialLoading && (<ReusableFlatlist 
-                    data={fetchedProducts}
-                    initialNumToRender={50}
-                    itemToRender={ProductListItem}
-                    keyExtract={keyExtractor}
-                    itemDivider={() => <ItemDivider />}
                     config={configuration}
                     scrollBegin={() => {
                       onEndReachedCalledDuringMomentum = false;
@@ -79,11 +87,6 @@ const ProductList = props => {
                         setPageNumber(pageNumber + 1);
                       }
                     }}
-                    getItemStaticDimension={{height : 100}}
-                    isItemDimensionDynamic={false}
-                    ListFooterComponent={isLoadingMore ?  renderLoader : null}
-                    renderLoaderComponent={renderLoader}
-                    isLoadingMore={isLoadingMore}
                     onRefresh={() => {
                       if(pageNumber > 1){
                         setIsLoadingRefresh(true);
@@ -91,8 +94,6 @@ const ProductList = props => {
                       }
                        
                     }}
-                    refreshing={isLoadingRefresh}
-                    maxToRenderPerBatch={50}
                      /> )}
                   
                 
@@ -127,7 +128,7 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'space-around',
       padding: 10,
-      // marginBottom : 100
+      marginBottom : 30
     },
   });
 
