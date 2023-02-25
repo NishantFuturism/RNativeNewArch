@@ -26,6 +26,8 @@ import RNBootSplash from "react-native-bootsplash";
 import Checkout from './src/Checkout';
 import StripePayment from './src/StripePayment';
 import CheckoutIOS from './src/CheckoutIOS';
+import AddressCollectorSheet from './src/AddressCollectorSheet';
+import GooglePayScreen from './src/GooglePaySheetStripe';
 
 
 
@@ -53,10 +55,11 @@ function App(): JSX.Element {
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
        <Text style={{backgroundColor : 'red',marginBottom : 100}}>Hi There</Text>
-       <StripePayment>
+       {/* <StripePayment> */}
 
-       {Platform.OS === 'android' ? <Checkout/> : <CheckoutIOS/> }
-       </StripePayment>
+       {/* {Platform.OS === 'android' ? <Checkout/> : <CheckoutIOS/> } */}
+       <GooglePayScreen/>
+       {/* </StripePayment> */}
       </ScrollView>
     </SafeAreaView>
   );
