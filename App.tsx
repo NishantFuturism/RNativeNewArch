@@ -57,8 +57,8 @@ function App(): JSX.Element {
        <Text style={{backgroundColor : 'red',marginBottom : 100}}>Hi There</Text>
        {/* <StripePayment> */}
 
-       {/* {Platform.OS === 'android' ? <Checkout/> : <CheckoutIOS/> } */}
-       <GooglePayScreen/>
+       {Platform.OS === 'android' ? <Checkout/> : <CheckoutIOS/> }
+       {/* <GooglePayScreen/> */}
        {/* </StripePayment> */}
       </ScrollView>
     </SafeAreaView>

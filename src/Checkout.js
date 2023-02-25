@@ -2,6 +2,7 @@ import { useStripe } from '@stripe/stripe-react-native';
 import React, { useCallback, useEffect, useState } from 'react';
 import {Text,View,StyleSheet, FlatList,Button ,Alert,ActivityIndicatorComponent, ActivityIndicator} from 'react-native';
 import StripePayment from './StripePayment';
+import StripeStyles from './StripeStyles';
 
 const Checkout = props => {
     const { initPaymentSheet, presentPaymentSheet } = useStripe();
@@ -9,7 +10,7 @@ const Checkout = props => {
   
     const fetchPaymentSheetParams = async () => {
         //set localhost for ios simulator and ip address for android emulator
-      const response = await fetch("http://192.168.3.217:4242/stripe/checkout");
+      const response = await fetch("http://192.168.3.208:8080/stripe/checkout");
       
         const { paymentIntent, ephemeralKey, customer} = await response.json();
       
@@ -39,7 +40,8 @@ const Checkout = props => {
         allowsDelayedPaymentMethods: true,
         defaultBillingDetails: {
           name: 'Jane Doe',
-        }
+        },
+        // appearance : StripeStyles.CardSheet
       });
       if (!error) {
         setLoading(true);
