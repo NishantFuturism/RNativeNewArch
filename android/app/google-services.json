@@ -1,0 +1,47 @@
+    {
+        "project_info": {
+            "project_number": "513737620530",
+            "project_id": "futurism-538eb",
+            "storage_bucket": "futurism-538eb.appspot.com"
+          },
+          "client": [
+            {
+              "client_info": {
+                "mobilesdk_app_id": "1:513737620530:android:23adaf3e655a9b0a21902b",
+                "android_client_info": {
+                  "package_name": "com.futurismts"
+                }
+              },
+              "oauth_client": [
+                {
+                  "client_id": "513737620530-o94v3l4ad5abs0btsrpdg1a5406jfhpf.apps.googleusercontent.com",
+                  "client_type": 1,
+                  "android_info": {
+                    "package_name": "com.futurismts",
+                    "certificate_hash": "1c1c1f35ace9949e60d379185e5fe43f4486a8e4"
+                  }
+                },
+                {
+                  "client_id": "513737620530-g225rhh1j8ef8umevj8llf2ob8jl4hrg.apps.googleusercontent.com",
+                  "client_type": 3
+                }
+              ],
+              "api_key": [
+                {
+                  "current_key": "AIzaSyAvFnFiU6Fo7Q9r9xzk0qi3YjQHF7porLc"
+                }
+              ],
+              "services": {
+                "appinvite_service": {
+                  "other_platform_oauth_client": [
+                    {
+                      "client_id": "513737620530-g225rhh1j8ef8umevj8llf2ob8jl4hrg.apps.googleusercontent.com",
+                      "client_type": 3
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          "configuration_version": "1"
+    }
