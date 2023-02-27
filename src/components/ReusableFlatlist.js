@@ -36,9 +36,10 @@ const ReusableFlatlist = (props) => {
                     data={props.config.data ? props.config.data : []}
                     contentContainerStyle={{alignItems : 'center'}}
                     style={{marginBottom : 30}}
-                    numColumns={props.config.gridView ? 2 : 1}
+                    numColumns={props.listView ? 1 : 2}
+                    key={props.gridView ? props.gridView : props.listView}
                     initialNumToRender={props.config.initialNumToRender ? props.config.initialNumToRender :  10}
-                    renderItem={props.config.itemToRender ? props.config.listView ? props.config.itemToRender.view.list : props.config.itemToRender.view.grid : null}
+                    renderItem={props.config.itemToRender ? props.listView ? props.config.itemToRender.view.list : props.config.itemToRender.view.grid : null}
                     keyExtractor={props.config.keyExtract ? props.config.keyExtract : null}
                     ItemSeparatorComponent={props.config.itemDivider ? props.config.itemDivider : null}
                     onMomentumScrollBegin={() => {

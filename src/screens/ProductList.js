@@ -1,22 +1,31 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import {Text,View,StyleSheet, FlatList, ActivityIndicatorComponent, ActivityIndicator} from 'react-native';
+import {Text,View,StyleSheet, FlatList, ActivityIndicatorComponent, ActivityIndicator,Switch} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import ReusableFlatlist from '../components/ReusableFlatlist';
 import Colors from '../constants/Colors';
 import { ProductItemConstants } from '../constants/ProductItemConstants';
-import { fetchProducts } from '../redux/actions/Product';
+import { fetchProducts,toggleProductListView,toggleProductGridView } from '../redux/actions/Product';
 
 const ProductList = props => {
     var onEndReachedCalledDuringMomentum = false;
     const dispatch = useDispatch();
     const fetchedProducts = useSelector(state => state.product.products);
+    const listViewState = useSelector(state => state.product.isListView);
+    const gridViewState = useSelector(state => state.product.isGridView);
     const [pageNumber,setPageNumber] = useState(1);
     const [pageLimit,setPageLimit] = useState(10);
 
     const [isIntialLoading,setIsIntialLoading] = useState(false);
     const [isLoadingMore,setIsLoadingMore] = useState(false);
     const [isLoadingRefresh,setIsLoadingRefresh] = useState(false);
-    
+    const [isEnabled, setIsEnabled] = useState(false);
+
+
+    const toggleViewHandler = () => setIsEnabled(!isEnabled);
+
+
+  
+
     const keyExtractor = useCallback((item) => item.id.toString(),[]);
 
 
@@ -32,6 +41,19 @@ const ProductList = props => {
         getProductsList();
       },[pageNumber])
 
+
+      useEffect(() => {
+        if(!isEnabled){
+          dispatch(toggleProductListView(false));
+          dispatch(toggleProductGridView(true));
+        }else{
+          dispatch(toggleProductListView(true));
+          dispatch(toggleProductGridView(false));
+        }
+        
+      },[isEnabled])
+
+
     const getProductsList = () => {
           try {
              dispatch(fetchProducts(pageNumber,pageLimit,fetchedProducts)).then(res => {setIsIntialLoading(false);setIsLoadingRefresh(false);setIsLoadingMore(false);console.log("res")} );
@@ -40,6 +62,18 @@ const ProductList = props => {
           }
       };
 
+      const renderSwitchButton = () => {
+        return (
+          <Switch
+        trackColor={{false: '#767577', true: '#81b0ff'}}
+        thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
+        ios_backgroundColor="#3e3e3e"
+        onValueChange={toggleViewHandler}
+        value={isEnabled}
+      />
+        )
+      }
+ 
       const renderLoader = useCallback(() => {
         return(
             <View style={[styles.container, styles.horizontal]}>
@@ -48,24 +82,31 @@ const ProductList = props => {
         )
       },[]);
 
-      const configuration = {
-        enableLazyLoading : true,
-        enablePullToRefresh : true,
-        isItemDimensionDynamic : false,
-        listView : false,
-        gridView : true,
-        data:fetchedProducts,
-        initialNumToRender : 50,
-        keyExtract : keyExtractor,
-        itemDivider : ItemDivider,
-        renderLoaderComponent : renderLoader,
-        isLoadingMore : isLoadingMore,
-        refreshing : isLoadingRefresh,
-        maxToRenderPerBatch : 50,
-        getItemStaticDimension : {height : 100},
-        ListFooterComponent : isLoadingMore ?  renderLoader : null,
-        itemToRender : ProductItemConstants,
-      }
+        
+    // const toggleSwitch = () => {
+    //   let temp = configuration.listView;
+    //   configuration.listView = configuration.gridView,
+    //   configuration.gridView = temp;
+      
+    // };
+
+
+    const configuration = {
+      enableLazyLoading : true,
+      enablePullToRefresh : true,
+      isItemDimensionDynamic : false,
+      data:fetchedProducts,
+      initialNumToRender : 50,
+      keyExtract : keyExtractor,
+      itemDivider : ItemDivider,
+      renderLoaderComponent : renderLoader,
+      isLoadingMore : isLoadingMore,
+      refreshing : isLoadingRefresh,
+      maxToRenderPerBatch : 50,
+      getItemStaticDimension : {height : 100},
+      ListFooterComponent : isLoadingMore ?  renderLoader : null,
+      itemToRender : ProductItemConstants,
+    }
 
 
     return (
@@ -74,8 +115,10 @@ const ProductList = props => {
                   {isIntialLoading && ( <View style={{flex : 1,justifyContent : 'center',alignItems : 'center'}}>
                     {renderLoader()}
                   </View> )}
-
-                  {!isIntialLoading && (<ReusableFlatlist 
+                  {renderSwitchButton()}
+                  {!isIntialLoading && (<ReusableFlatlist
+                    listView={listViewState}
+                    gridView={gridViewState}
                     config={configuration}
                     scrollBegin={() => {
                       onEndReachedCalledDuringMomentum = false;

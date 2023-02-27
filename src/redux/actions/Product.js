@@ -83,4 +83,26 @@ export const clearSearchStore = () => {
 };
 
 
+export const toggleProductListView = (toggleValue) => {
+  console.log("toggleValue toggleProductListView",toggleValue);
+  return async dispatch => {
+    // any async code you want!
+    try {
+      dispatch({ type: Types.PRODUCTS.IS_LIST_VIEW, payload: toggleValue });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
 
+export const toggleProductGridView = (toggleValue) => {
+  console.log("toggleValue toggleProductGridView",toggleValue);
+  return async dispatch => {
+    // any async code you want!
+    try {
+      dispatch({ type: Types.PRODUCTS.IS_GRID_VIEW, payload: toggleValue });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
