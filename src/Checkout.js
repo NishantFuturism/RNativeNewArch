@@ -10,7 +10,7 @@ const Checkout = props => {
   
     const fetchPaymentSheetParams = async () => {
         //set localhost for ios simulator and ip address for android emulator
-      const response = await fetch("http://192.168.3.208:8080/stripe/checkout");
+      const response = await fetch("http://192.168.4.93:8080/stripe/checkout");
       
         const { paymentIntent, ephemeralKey, customer} = await response.json();
       
