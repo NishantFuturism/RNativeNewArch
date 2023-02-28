@@ -35,24 +35,29 @@ const ReusableFlatlist = (props) => {
                     horizontal={false}
                     data={props.config.data ? props.config.data : []}
                     contentContainerStyle={{alignItems : 'center'}}
-                    style={{marginBottom : 30}}
-                    numColumns={props.listView ? 1 : 2}
-                    key={props.gridView ? props.gridView : props.listView}
+                    numColumns={props.config.listView ? 1 : 2}
+                    key={props.config.gridView ? props.config.gridView : props.config.listView}
                     initialNumToRender={props.config.initialNumToRender ? props.config.initialNumToRender :  10}
-                    renderItem={props.config.itemToRender ? props.listView ? props.config.itemToRender.view.list : props.config.itemToRender.view.grid : null}
+                    renderItem={props.config.itemToRender ? props.config.listView ? props.config.itemToRender.view.list : props.config.itemToRender.view.grid : null}
                     keyExtractor={props.config.keyExtract ? props.config.keyExtract : null}
                     ItemSeparatorComponent={props.config.itemDivider ? props.config.itemDivider : null}
                     onMomentumScrollBegin={() => {
-                        if(props.config.enableLazyLoading) props.scrollBegin();  
+                        if(props.config.enableLazyLoading && props.config.isAutoLoadMore) props.scrollBegin();  
                     }}
                     // scrollEventThrottle={250}
                     onEndReached={() => {
-                        if(props.config.enableLazyLoading)  props.onBottomReached();
+                        if(props.config.enableLazyLoading && props.config.isAutoLoadMore)  props.onBottomReached();
                     }}
                     ListEmptyComponent={RenderEmptyItem}
                     onEndReachedThreshold={0.5}
                     getItemLayout={props.config.isItemDimensionDynamic ? getItemLayout : null}
-                    ListFooterComponent={props.config.isLoadingMore ? props.config.renderLoaderComponent : null}
+                    ListFooterComponent={
+                        props.config.isAutoLoadMore ? props.config.isLoadingMore ?  props.config.renderLoaderComponent : null  : props.config.isLoadingMore ? props.config.renderLoaderComponent : props.config.loadMoreButton
+                    }
+                    ListFooterComponentStyle={{
+                        marginBottom : 30
+                    }}
+
                     onRefresh={() => {
                         if(props.config.enablePullToRefresh) props.onRefresh();
                     }}

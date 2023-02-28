@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import {Text,View,StyleSheet, FlatList, ActivityIndicatorComponent, ActivityIndicator,Switch} from 'react-native';
+import {Text,View,StyleSheet, FlatList, ActivityIndicatorComponent, ActivityIndicator,Switch, TouchableOpacity} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import ReusableFlatlist from '../components/ReusableFlatlist';
 import Colors from '../constants/Colors';
@@ -76,11 +76,27 @@ const ProductList = props => {
  
       const renderLoader = useCallback(() => {
         return(
-            <View style={[styles.container, styles.horizontal]}>
             <ActivityIndicator size="large" color="#00ff00" />
-            </View>
         )
       },[]);
+
+      const renderFooterLoader = useCallback(() => {
+        return(
+            <ActivityIndicator style={{marginBottom : 30}} size="large" color="#00ff00" />
+        )
+      },[]);
+
+      const loadMoreButton = () => {
+        return (
+          <TouchableOpacity 
+           onPress={() => {
+            onBottomReachedCalled();
+           }}
+          style={{width : '50%',justifyContent :'center',alignItems : 'center',height : 70,backgroundColor : 'green',marginBottom : 30 }}>
+            <Text>Load More...</Text>
+          </TouchableOpacity>
+        )
+      }
 
         
     // const toggleSwitch = () => {
@@ -90,45 +106,49 @@ const ProductList = props => {
       
     // };
 
+    const onBottomReachedCalled = () => {
+      if (!onEndReachedCalledDuringMomentum && !isLoadingMore && fetchedProducts.length > 0) {
+        onEndReachedCalledDuringMomentum = true;
+        setIsLoadingMore(true);
+        setPageNumber(pageNumber + 1);
+      }
+    }
+
 
     const configuration = {
       enableLazyLoading : true,
       enablePullToRefresh : true,
       isItemDimensionDynamic : false,
+      isAutoLoadMore : true,
       data:fetchedProducts,
       initialNumToRender : 50,
       keyExtract : keyExtractor,
       itemDivider : ItemDivider,
-      renderLoaderComponent : renderLoader,
+      renderLoaderComponent : renderFooterLoader,
       isLoadingMore : isLoadingMore,
       refreshing : isLoadingRefresh,
       maxToRenderPerBatch : 50,
       getItemStaticDimension : {height : 100},
-      ListFooterComponent : isLoadingMore ?  renderLoader : null,
       itemToRender : ProductItemConstants,
-    }
+      listView : listViewState,
+      gridView : gridViewState,
+      loadMoreButton : loadMoreButton
+   }
 
 
     return (
-        <>
         <View>
-                  {isIntialLoading && ( <View style={{flex : 1,justifyContent : 'center',alignItems : 'center'}}>
+                  {isIntialLoading && (<View style={{flex : 1,backgroundColor : 'red'}}>
                     {renderLoader()}
                   </View> )}
-                  {renderSwitchButton()}
+                  {!isIntialLoading && renderSwitchButton()}
                   {!isIntialLoading && (<ReusableFlatlist
-                    listView={listViewState}
-                    gridView={gridViewState}
                     config={configuration}
                     scrollBegin={() => {
                       onEndReachedCalledDuringMomentum = false;
                     }}
                     onBottomReached={() => {
-                      if (!onEndReachedCalledDuringMomentum && !isLoadingMore && fetchedProducts.length > 0) {
-                        onEndReachedCalledDuringMomentum = true;
-                        setIsLoadingMore(true);
-                        setPageNumber(pageNumber + 1);
-                      }
+                      onBottomReachedCalled();
                     }}
                     onRefresh={() => {
                       if(pageNumber > 1){
@@ -141,7 +161,6 @@ const ProductList = props => {
                   
                 
         </View>
-        </>
     )
 }
 
@@ -171,7 +190,7 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'space-around',
       padding: 10,
-      marginBottom : 30
+      // marginBottom : 30
     },
   });
 

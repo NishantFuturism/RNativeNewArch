@@ -43,7 +43,6 @@ function App(): JSX.Element {
   return (
     <Redux>
       <ScreenWrapper disableScrollView={true}>
-      <Text>sdfsdf</Text>
       <ProductList/>
       {/* <Search/> */}
       </ScreenWrapper>
