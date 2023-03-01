@@ -15,7 +15,7 @@ return (
       barStyle={STYLES[0]}
     />
     {/* {disableScrollView && children} */}
-    {disableScrollView && (<View style={{backgroundColor : 'white'}}>
+    {disableScrollView && (<View style={{flex : 1,backgroundColor : 'white'}}>
        {children}
     </View>)}
     {!disableScrollView && (<ScrollView style={{backgroundColor : 'white'}}>

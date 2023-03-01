@@ -132,7 +132,7 @@ const ProductList = props => {
       itemToRender : ProductItemConstants,
       listView : listViewState,
       gridView : gridViewState,
-      loadMoreButton : loadMoreButton
+      loadMoreButton : loadMoreButton,
    }
 
 
