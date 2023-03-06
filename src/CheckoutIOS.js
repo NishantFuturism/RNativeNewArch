@@ -1,13 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {Text,View,StyleSheet, FlatList,Button ,Alert,ActivityIndicatorComponent, ActivityIndicator} from 'react-native';
 import { CardField, useConfirmPayment, useStripe } from '@stripe/stripe-react-native';
+import { config } from './Network';
 
 export default function CheckoutIOS() {
   // const { confirmPayment } = useStripe();
   const {confirmPayment, loading} = useConfirmPayment();
-
+  const baseUrl = config.IP_ADDRESS_LOCALHOST;
   const fetchPaymentIntentClientSecret = async () => {
-    const response = await fetch("http://localhost:8080/stripe/checkoutIOS", {
+    const response = await fetch(`${baseUrl}stripe/checkoutIOS`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

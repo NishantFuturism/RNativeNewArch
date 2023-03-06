@@ -16,7 +16,7 @@ import {
   useColorScheme,
   View,
   Button,
-  Platform
+  Platform,
 } from 'react-native';
 
 import {
@@ -28,7 +28,14 @@ import StripePayment from './src/StripePayment';
 import CheckoutIOS from './src/CheckoutIOS';
 import AddressCollectorSheet from './src/AddressCollectorSheet';
 import GooglePayScreen from './src/GooglePaySheetStripe';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+import { ProductsList } from './src/UserFlow/screens/ProductsList';
+import { ProductDetails } from './src/UserFlow/screens/ProductDetails.js';
+import { Cart } from './src/UserFlow/screens/Cart';
+import { CartIcon } from './src/UserFlow/components/CartIcon';
+import { CartProvider } from './src/UserFlow/CartContext';
 
 
 function App(): JSX.Element {
@@ -42,6 +49,9 @@ function App(): JSX.Element {
       RNBootSplash.hide({ fade: true, duration: 5000 });
       console.log("Bootsplash has been hidden successfully");
   }, []);
+
+  const Stack = createNativeStackNavigator();
+
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -62,6 +72,41 @@ function App(): JSX.Element {
        {/* </StripePayment> */}
       </ScrollView>
     </SafeAreaView>
+
+
+
+    // <CartProvider>
+    //   <NavigationContainer>
+    //     <Stack.Navigator initialRouteName='Products'>
+    //       <Stack.Screen name='Products' component={ProductsList} 
+    //       options={({ navigation }) => ({
+    //         title: 'Products',
+    //         headerTitleStyle: styles.headerTitle,
+    //         headerRight: () => <CartIcon navigation={navigation}/>
+    //       })}/>
+    //       <Stack.Screen name='Cart' component={Cart} 
+    //       options={({ navigation }) => ({
+    //         title: 'My Cart',
+    //         headerTitleStyle: styles.headerTitle,
+            
+    //       })} />
+    //       <Stack.Screen name='ProductDetails' component={ProductDetails}
+    //       options={({ navigation }) => ({
+    //         title: 'Product details',
+    //         headerTitleStyle: styles.headerTitle,
+    //         headerRight: () => <CartIcon navigation={navigation}/>,
+    //       })} />
+    //        <Stack.Screen name='Checkout' component={Platform.OS === 'android' ? Checkout : CheckoutIOS} 
+    //       options={({ navigation }) => ({
+    //         title: 'Checkout',
+    //         headerTitleStyle: styles.headerTitle,
+    //         // headerRight: () => null,
+    //       })} />
+          
+         
+    //     </Stack.Navigator>
+    //   </NavigationContainer>
+    // </CartProvider>
   );
 }
 
@@ -82,6 +127,9 @@ const styles = StyleSheet.create({
   highlight: {
     fontWeight: '700',
   },
+  headerTitle: {
+    fontSize: 20
+  }
 });
 
 export default App;

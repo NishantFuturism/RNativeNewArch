@@ -13,6 +13,7 @@ import { Alert, StyleSheet, View, Image } from 'react-native';
 // @ts-ignore
 // import AddToGooglePayPNG from '../assets/Add-to-Google-Pay-Button-dark-no-shadow.png';
 import PaymentScreenDummy from './PaymentScreenDummy';
+import { config } from './Network';
 
 const LIVE_CARD_ID = 'ic_1KnTM2F05jLespP6wNLZQ1mu';
 
@@ -24,7 +25,7 @@ export default function GooglePayScreen() {
   const [androidCardToken, setAndroidCardToken] =
     useState(null);
   const [clientSecret, setClientSecret] = useState(null);
-
+  const baseUrl = config.IP_ADDRESS_LOCALHOST;
   useEffect(() => {
     fetchEphemeralKey();
     checkIfCardInWallet();
@@ -37,7 +38,8 @@ export default function GooglePayScreen() {
   };
 
   const checkIfCardInWallet = async () => {
-    const response = await fetch(`http://192.168.43.194:4242/issuing-card-details`, {
+    const response = await fetch(
+      `${baseUrl}issuing-card-details`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -72,7 +74,8 @@ export default function GooglePayScreen() {
   };
 
   const fetchPaymentIntentClientSecret = async () => {
-    const response = await fetch(`http://192.168.43.194:4242/create-payment-intent`, {
+    const response = await fetch(
+      `${baseUrl}create-payment-intent`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -177,7 +180,8 @@ export default function GooglePayScreen() {
   };
 
   const fetchEphemeralKey = async () => {
-    const response = await fetch(`http://192.168.43.194:4242/ephemeral-key`, {
+    const response = await fetch(
+      `${baseUrl}ephemeral-key`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

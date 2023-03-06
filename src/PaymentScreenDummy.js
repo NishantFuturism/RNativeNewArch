@@ -18,7 +18,8 @@ const PaymentScreenDummy  = ({
       console.log("method",paymentMethod)
     try {
       const response = await fetch(
-        `https://rigorous-heartbreaking-cephalopod.glitch.me/stripe-key?paymentMethod=${paymentMethod}`
+        `${baseUrl}stripe-key?paymentMethod=${paymentMethod}`
+        // `https://rigorous-heartbreaking-cephalopod.glitch.me/stripe-key?paymentMethod=${paymentMethod}`
       );
   
       const { publishableKey } = await response.json();
