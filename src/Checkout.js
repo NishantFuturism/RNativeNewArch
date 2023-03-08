@@ -1,21 +1,35 @@
 import { useStripe } from '@stripe/stripe-react-native';
-import React, { useCallback, useEffect, useState } from 'react';
-import {Text,View,StyleSheet, FlatList,Button ,Alert,ActivityIndicatorComponent, ActivityIndicator} from 'react-native';
+import React, {useEffect, useState } from 'react';
+import {Button ,Alert} from 'react-native';
 import { config } from './Network';
-import StripePayment from './StripePayment';
-import StripeStyles from './StripeStyles';
+
 
 const Checkout = props => {
     const { initPaymentSheet, presentPaymentSheet } = useStripe();
     const [loading, setLoading] = useState(false);
+    console.log(props);
+    const {total,currency,description}  = props; 
     const url = config.IP_ADDRESS_LOCALHOST + 'stripe/checkout';
     const fetchPaymentSheetParams = async () => {
         //set localhost for ios simulator and ip address for android emulator
-      const response = await fetch(url);
+
+        // amt,currency,description
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          total,
+         currency,
+         description
+        }),
+      });
       
         const { paymentIntent, ephemeralKey, customer} = await response.json();
-      
-  
+
       return {
         paymentIntent,
         ephemeralKey,
@@ -44,7 +58,7 @@ const Checkout = props => {
         //methods that complete payment after a delay, like SEPA Debit and Sofort.
         allowsDelayedPaymentMethods: true,
         defaultBillingDetails: {
-          name: 'Jafne Doe',
+          name: 'George Dane',
         },
         // appearance : StripeStyles.CardSheet
       });
@@ -60,7 +74,8 @@ const Checkout = props => {
           Alert.alert(`Error code: ${error.code}`, error.message);
         } else {
           Alert.alert('Success', 'Your order is confirmed!');
-        }    };
+        }    
+      };
   
     useEffect(() => {
       initializePaymentSheet();

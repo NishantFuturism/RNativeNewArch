@@ -36,6 +36,7 @@ import { ProductDetails } from './src/UserFlow/screens/ProductDetails.js';
 import { Cart } from './src/UserFlow/screens/Cart';
 import { CartIcon } from './src/UserFlow/components/CartIcon';
 import { CartProvider } from './src/UserFlow/CartContext';
+import FinalCheckout from './src/pages/FinalCheckout';
 
 
 function App(): JSX.Element {
@@ -50,63 +51,43 @@ function App(): JSX.Element {
       console.log("Bootsplash has been hidden successfully");
   }, []);
 
+  
+
   const Stack = createNativeStackNavigator();
 
-
   return (
-    <SafeAreaView style={backgroundStyle}>
-    
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-        
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-       <Text style={{backgroundColor : 'red',marginBottom : 100}}>Hi There</Text>
-       {/* <StripePayment> */}
-
-       {Platform.OS === 'android' ? <Checkout/> : <CheckoutIOS/> }
-       {/* <GooglePayScreen/> */}
-       {/* </StripePayment> */}
-      </ScrollView>
-    </SafeAreaView>
-
-
-
-    // <CartProvider>
-    //   <NavigationContainer>
-    //     <Stack.Navigator initialRouteName='Products'>
-    //       <Stack.Screen name='Products' component={ProductsList} 
-    //       options={({ navigation }) => ({
-    //         title: 'Products',
-    //         headerTitleStyle: styles.headerTitle,
-    //         headerRight: () => <CartIcon navigation={navigation}/>
-    //       })}/>
-    //       <Stack.Screen name='Cart' component={Cart} 
-    //       options={({ navigation }) => ({
-    //         title: 'My Cart',
-    //         headerTitleStyle: styles.headerTitle,
+    <CartProvider>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName='Products'>
+          <Stack.Screen name='Products' component={ProductsList} 
+          options={({ navigation }) => ({
+            title: 'Products',
+            headerTitleStyle: styles.headerTitle,
+            headerRight: () => <CartIcon navigation={navigation}/>
+          })}/>
+          <Stack.Screen name='Cart' component={Cart} 
+          options={({ navigation }) => ({
+            title: 'My Cart',
+            headerTitleStyle: styles.headerTitle,
             
-    //       })} />
-    //       <Stack.Screen name='ProductDetails' component={ProductDetails}
-    //       options={({ navigation }) => ({
-    //         title: 'Product details',
-    //         headerTitleStyle: styles.headerTitle,
-    //         headerRight: () => <CartIcon navigation={navigation}/>,
-    //       })} />
-    //        <Stack.Screen name='Checkout' component={Platform.OS === 'android' ? Checkout : CheckoutIOS} 
-    //       options={({ navigation }) => ({
-    //         title: 'Checkout',
-    //         headerTitleStyle: styles.headerTitle,
-    //         // headerRight: () => null,
-    //       })} />
+          })} />
+          <Stack.Screen name='ProductDetails' component={ProductDetails}
+          options={({ navigation }) => ({
+            title: 'Product details',
+            headerTitleStyle: styles.headerTitle,
+            headerRight: () => <CartIcon navigation={navigation}/>,
+          })} />
+           <Stack.Screen name='Checkout' component={FinalCheckout} 
+          options={({ navigation }) => ({
+            title: 'Checkout',
+            headerTitleStyle: styles.headerTitle,
+            // headerRight: () => null,
+          })} />
           
          
-    //     </Stack.Navigator>
-    //   </NavigationContainer>
-    // </CartProvider>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </CartProvider>
   );
 }
 

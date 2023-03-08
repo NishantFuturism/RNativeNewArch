@@ -6,9 +6,9 @@ import { CartContext } from '../CartContext';
 export function Cart ({navigation}) {
 
   const {items, getItemsCount, getTotalPrice} = useContext(CartContext);
-  
+  let [total, setTotal] = useState(0);
+
   function Totals() {
-    let [total, setTotal] = useState(0);
     useEffect(() => {
       setTotal(getTotalPrice());
     });
@@ -39,8 +39,11 @@ export function Cart ({navigation}) {
       keyExtractor={(item) => item.product.id.toString()}
       ListFooterComponent={Totals}
     />
-    <Button title='Go To Checkout' color={'blue'} onPress={() => {
-      navigation.navigate('Checkout')
+    <Button title='Go To Card Checkout' color={'blue'} onPress={() => {
+      navigation.navigate('Checkout',{screenName : 'Card',total : total,currency : 'inr',description : items})
+    }} />
+      <Button title='Go To GPay Checkout' color={'green'} onPress={() => {
+      navigation.navigate('Checkout',{screenName : 'GPay'})
     }} />
     </>
   );
