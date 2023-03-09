@@ -8,7 +8,7 @@ useEffect(() => {
     if(props?.route?.params){
         const {total,currency,description} = props?.route?.params;
         if(props?.route?.params?.screenName === 'GPay'){
-            setScreen(<FinalCheckoutGooglePay/>)
+            setScreen(<FinalCheckoutGooglePay total={total}  currency={currency} description={description} />)
         }else{
             setScreen(<FinalCheckoutCard total={total}  currency={currency} description={description}/>)
         }

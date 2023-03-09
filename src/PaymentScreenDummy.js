@@ -2,6 +2,7 @@ import { initStripe } from '@stripe/stripe-react-native';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, ScrollView, StyleSheet } from 'react-native';
 import { colors } from '../colors';
+import { PaymentConfig } from './PaymentConfig';
 
 
 
@@ -40,7 +41,7 @@ const PaymentScreenDummy  = ({
   useEffect(() => {
     async function initialize() {
       // fetchPublishableKey('Cards');
-      const publishableKey = 'pk_test_51MWjZwSIeh1iL1vKESVOivHC2zYSSYM2fxwVmOSINs7whg4SozQ8IfzHOqeRjlHMzgzThE7AYjXhVLbrtiHsrHBS009o0YbYWE';
+      const publishableKey = PaymentConfig.PUBLISHABLE_KEY;
       if (publishableKey) {
         await initStripe({
           publishableKey,

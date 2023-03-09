@@ -2,6 +2,7 @@ import { useStripe } from '@stripe/stripe-react-native';
 import React, {useEffect, useState } from 'react';
 import {Button ,Alert} from 'react-native';
 import { config } from './Network';
+import { PaymentConfig } from './PaymentConfig';
 
 
 const Checkout = props => {
@@ -45,23 +46,9 @@ const Checkout = props => {
         publishableKey,
       } = await fetchPaymentSheetParams();
   
-      const { error } = await initPaymentSheet({
-        merchantDisplayName: "Example, Inc.",
-        customerId: customer,
-        googlePay: {
-          merchantCountryCode: 'US',
-          testEnv: true, // use test environment
-        },
-        customerEphemeralKeySecret: ephemeralKey,
-        paymentIntentClientSecret: paymentIntent,
-        // Set `allowsDelayedPaymentMethods` to true if your business can handle payment
-        //methods that complete payment after a delay, like SEPA Debit and Sofort.
-        allowsDelayedPaymentMethods: true,
-        defaultBillingDetails: {
-          name: 'George Dane',
-        },
-        // appearance : StripeStyles.CardSheet
-      });
+      const { error } = await initPaymentSheet(
+      {...PaymentConfig.Card,customerId  : customer,customerEphemeralKeySecret: ephemeralKey,paymentIntentClientSecret: paymentIntent}
+      );
       if (!error) {
         setLoading(true);
       }

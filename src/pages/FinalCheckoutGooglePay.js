@@ -9,7 +9,7 @@ const FinalCheckoutGooglePay = props => {
       return(
         <>
        <StripePayment>
-       <GooglePayScreen/>
+       <GooglePayScreen {...props}/>
        </StripePayment>
        </>
       )

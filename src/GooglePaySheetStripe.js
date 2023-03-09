@@ -14,10 +14,10 @@ import { Alert, StyleSheet, View, Image } from 'react-native';
 // import AddToGooglePayPNG from '../assets/Add-to-Google-Pay-Button-dark-no-shadow.png';
 import PaymentScreenDummy from './PaymentScreenDummy';
 import { config } from './Network';
+import { PaymentConfig } from './PaymentConfig';
 
-const LIVE_CARD_ID = 'ic_1KnTM2F05jLespP6wNLZQ1mu';
 
-export default function GooglePayScreen() {
+export default function GooglePayScreen(props) {
   const [isGooglePaySupported, setIsGooglePaySupported] = useState(false);
   const [ephemeralKey, setEphemeralKey] = useState({});
   const [showAddToWalletButton, setShowAddToWalletButton] = useState(true);
@@ -26,6 +26,7 @@ export default function GooglePayScreen() {
     useState(null);
   const [clientSecret, setClientSecret] = useState(null);
   const baseUrl = config.IP_ADDRESS_LOCALHOST;
+  const {total,currency,description}  = props;
   useEffect(() => {
     fetchEphemeralKey();
     checkIfCardInWallet();
@@ -45,7 +46,7 @@ export default function GooglePayScreen() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        id: LIVE_CARD_ID,
+        id: PaymentConfig.LIVE_CARD_ID,
       }),
     });
 
@@ -96,19 +97,7 @@ export default function GooglePayScreen() {
   const pay = async () => {
     const { error, paymentIntent } = await confirmPlatformPayPayment(
       clientSecret,
-      {
-        googlePay: {
-          testEnv: true,
-          merchantName: 'Test',
-          merchantCountryCode: 'US',
-          currencyCode: 'usd',
-          billingAddressConfig: {
-            format: PlatformPay.BillingAddressFormat.Full,
-            isPhoneNumberRequired: true,
-            isRequired: true,
-          },
-        },
-      }
+     { googlePay :  PaymentConfig.gPay.PlatformPayment },
     );
 
     if (error) {
@@ -125,22 +114,7 @@ export default function GooglePayScreen() {
   */
   const createPaymentMethod = async () => {
     const { error, paymentMethod } = await createPlatformPayPaymentMethod({
-      googlePay: {
-        amount: 12,
-        currencyCode: 'USD',
-        testEnv: true,
-        merchantName: 'Test',
-        merchantCountryCode: 'US',
-        billingAddressConfig: {
-          format: PlatformPay.BillingAddressFormat.Full,
-          isPhoneNumberRequired: true,
-          isRequired: true,
-        },
-        shippingAddressConfig: {
-          isRequired: true,
-        },
-        isEmailRequired: true,
-      },
+      googlePay: {...PaymentConfig.gPay.PlatformPayment,...PaymentConfig.gPay.PlatformPaymentWithExtraDetails,...{amount : 34}},
     });
 
     if (error) {
@@ -153,22 +127,7 @@ export default function GooglePayScreen() {
 
   const createToken = async () => {
     const { error, token } = await createPlatformPayPaymentMethod({
-      googlePay: {
-        amount: 12,
-        currencyCode: 'USD',
-        testEnv: true,
-        merchantName: 'Test',
-        merchantCountryCode: 'US',
-        billingAddressConfig: {
-          format: PlatformPay.BillingAddressFormat.Full,
-          isPhoneNumberRequired: true,
-          isRequired: true,
-        },
-        shippingAddressConfig: {
-          isRequired: true,
-        },
-        isEmailRequired: true,
-      },
+      googlePay: {...PaymentConfig.gPay.PlatformPayment,...PaymentConfig.gPay.PlatformPaymentWithExtraDetails,...{amount : 34}},
     });
 
     if (error) {
@@ -188,7 +147,7 @@ export default function GooglePayScreen() {
       },
       body: JSON.stringify({
         apiVersion: '2022-11-15',
-        issuingCardId: LIVE_CARD_ID,
+        issuingCardId: PaymentConfig.LIVE_CARD_ID,
       }),
     });
     const key = await response.json();
