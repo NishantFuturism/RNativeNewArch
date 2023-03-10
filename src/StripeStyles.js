@@ -1,9 +1,11 @@
+import { Platform } from "react-native";
+
 export default {
     CardSheet : {
-        font: {
-            family:
-              Platform.OS === 'android' ? 'avenirnextregular' : 'AvenirNext-Regular',
-          },
+        // font: {
+        //     family:
+        //       Platform.OS === 'android' ? 'avenirnextregular' : 'AvenirNext-Regular',
+        //   },
           shapes: {
             borderRadius: 12,
             borderWidth: 0.5,
