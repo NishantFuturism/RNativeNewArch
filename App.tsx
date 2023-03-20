@@ -15,13 +15,16 @@ import {
   Text,
   useColorScheme,
   View,
+  processColor
 } from 'react-native';
 
 import {
   Colors
 } from 'react-native/Libraries/NewAppScreen';
 import RNBootSplash from "react-native-bootsplash";
-
+import {LineChart} from 'react-native-charts-wrapper';
+import { NavigationContainer } from '@react-navigation/native';
+import ChartsListScreen from '../futurismts/src/app/ChartsListScreen';
 
 
 function App(): JSX.Element {
@@ -37,17 +40,12 @@ function App(): JSX.Element {
   }, []);
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-       <Text style={{backgroundColor : 'red'}}>Hi There</Text>
-      </ScrollView>
-    </SafeAreaView>
+    
+    <NavigationContainer>
+    <ChartsListScreen/>
+    
+  </NavigationContainer>
+     
   );
 }
 
@@ -68,6 +66,13 @@ const styles = StyleSheet.create({
   highlight: {
     fontWeight: '700',
   },
+  container: {
+    flex: 1,
+    backgroundColor: '#F5FCFF'
+  },
+  chart: {
+    flex: 1
+  }
 });
 
 export default App;
