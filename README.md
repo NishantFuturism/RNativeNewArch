@@ -864,9 +864,9 @@ export const ScatterChartConfig = (processColor,_randomYValues,size,range) => {
 
 ## Functions
 
-| Name                     | Type       | Description                                                                                                                                                            |
-| ------------------------ | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-                                                                                                                               |
+| Name | Type | Description |
+
+                                                                                                                               
 | `ChartAxisConfig`                 | `Object`   | **Required keys.**  xAxis, yAxis, data|
 | `ChartBarConfig`                 | `Object`   | **Required keys.**  legend, data,xAxis,highlights,animation,gridBackgroundColor,visibleRange,drawBarShadow,drawValueAboveBar,drawHighlightArrow|
 | `ChartBubbleConfig`                 | `Object`   | **Required Keys.**  legend, animation, data|
