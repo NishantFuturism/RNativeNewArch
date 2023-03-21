@@ -47,11 +47,11 @@ class BarChartScreen extends React.Component {
             xAxis={this.state.xAxis}
             animation={{durationX: 2000}}
             legend={this.state.legend}
-            gridBackgroundColor={processColor('#ffffff')}
-            visibleRange={{x: { min: 5, max: 5 }}}
-            drawBarShadow={false}
-            drawValueAboveBar={true}
-            drawHighlightArrow={true}
+            gridBackgroundColor={this.state.gridBackgroundColor}
+            visibleRange={this.state.visibleRange}
+            drawBarShadow={this.state.drawBarShadow}
+            drawValueAboveBar={this.state.drawValueAboveBar}
+            drawHighlightArrow={this.state.drawHighlightArrow}
             onSelect={this.handleSelect.bind(this)}
             highlights={this.state.highlights}
             onChange={(event) => console.log(event.nativeEvent)}

@@ -1,3 +1,31 @@
+# react-native-reusable-charts
+
+[![NPM](https://nodei.co/npm/react-native-charts.png?downloads=true)](https://nodei.co/npm/react-native-multi-feature-flatlist/)
+
+**A ReactNative's Chart component with multi-feature accessibility.**
+
+
+
+## Very Important Note :
+
+
+<img src='assets/LineChart.png' alt='img' />
+<img src='assets/pie.png' alt='img' />
+<img src='assets/Stackedbar.png' alt='img' />
+<img src='assets/verticalbar.png' alt='img' />
+
+## Installation
+
+Install `react-native-reusable-charts` with [npm](https://www.npmjs.com/):
+
+```
+npm install react-native-reusable-charts --save
+
+```
+
+## Usage
+
+```javascript
 
 export const ChartAxisConfig = (processColor, _randomYValues, COLOR_PURPLE, valueRange, size) => {
     return {
@@ -830,83 +858,25 @@ export const ScatterChartConfig = (processColor,_randomYValues,size,range) => {
     }
 }
 
-export const StockChartConfig = (processColor) => {
-    return {
-        priceXAxis: {
-            drawLabels: false,
-            granularity: 1,
-            granularityEnabled: true,
-            valueFormatter: 'date',
-            valueFormatterPattern: 'MM-dd',
-            since: 0,
-            timeUnit: 'DAYS'
-          },
-          volumeXAxis: {
-            drawLabels: true,
-            position: 'BOTTOM',
-            granularity: 1,
-            granularityEnabled: true,
-            valueFormatter: 'date',
-            valueFormatterPattern: 'MM-dd',
-            since: 0,
-            timeUnit: 'DAYS'
-          },
-          visibleRange: {x: {min: 1, max: 30}},
-          combinedData: {
-            lineData: {
-              dataSets: [{
-                values: null,
-                label: 'ma5',
-    
-                config: {
-                  drawValues: false,
-                  mode: "CUBIC_BEZIER",
-                  drawCircles: false,
-                  color: processColor('red')
-                }
-              }, {
-                values: null,
-                label: 'ma15',
-    
-                config: {
-                  drawValues: false,
-                  mode: "CUBIC_BEZIER",
-                  drawCircles: false,
-                  color: processColor('blue')
-                }
-              }],
-            },
-            candleData: {
-              dataSets: [{
-                values: null,
-                label: 'price',
-    
-                config: {
-                  drawValues: false,
-                  highlightColor: processColor('darkgray'),
-                  shadowColor: processColor('black'),
-                  shadowWidth: 1,
-                  shadowColorSameAsCandle: true,
-                  increasingColor: processColor('#71BD6A'),
-                  increasingPaintStyle: 'FILL',
-                  decreasingColor: processColor('#D14B5A')
-                }
-              }],
-            }
-          },
-    
-    
-          volumeData: {
-            dataSets: [{
-    
-              values: null,
-              label: 'volume',
-              config: {
-                drawValues: false,
-              }
-            }]
-    
-          },
-    }
-}
 
+```
+
+
+## Functions
+
+| Name                     | Type       | Description                                                                                                                                                            |
+| ------------------------ | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+                                                                                                                               |
+| `ChartAxisConfig`                 | `Object`   | **Required keys.**  xAxis, yAxis, data|
+| `ChartBarConfig`                 | `Object`   | **Required keys.**  legend, data,xAxis,highlights,animation,gridBackgroundColor,visibleRange,drawBarShadow,drawValueAboveBar,drawHighlightArrow|
+| `ChartBubbleConfig`                 | `Object`   | **Required Keys.**  legend, animation, data|
+| `ChartCandleStickConfig`                 | `Object`   | **Required Keys.**  legend, data, marker, zoomXValue|
+| `ChartGroupBarConfig`                 | `Object`   | **Required Keys.**  xAxis,legend, data, marker|
+| `HorizontalBarConfig`                 | `Object`   | **Required Keys.**  legend, data, xAxis, yAxis|
+| `LineChartGradientConfig`                 | `Object`   | **Required Keys.**  legend, data, marker,xAxis,autoScaleMinMaxEnabled,drawGridBackground,drawBorders,touchEnabled,dragEnabled,scaleEnabled,scaleXEnabled,scaleYEnabled,pinchZoom,doubleTapToZoomEnabled,dragDecelerationEnabled,dragDecelerationFrictionCoef,keepPositionOnRotation|
+| `LineChartConfig`                 | `Object`   | **Required Keys.**  legend, data, marker,xAxis, yAxis,animation,autoScaleMinMaxEnabled,drawGridBackground,drawBorders,touchEnabled,dragEnabled,scaleEnabled,scaleXEnabled,scaleYEnabled,pinchZoom,doubleTapToZoomEnabled,dragDecelerationEnabled,dragDecelerationFrictionCoef,keepPositionOnRotation|
+| `LinkageChartConfig`                 | `Object`   | **Required Keys.**  priceData, group, identifierChart1, identifierChart2,syncX,syncY,visibleRange,dragDecelerationEnabled,doubleTapToZoomEnabled|
+| `PieChartConfig`                 | `Object`   | **Required Keys.**  legend, data, highlights, description,logEnabled,chartBackgroundColor,extraOffsets,entryLabelColor,entryLabelTextSize,drawEntryLabels,rotationEnabled,rotationAngle,usePercentValues,styledCenterText,size,centerTextRadiusPercent,holeRadius,holeColor,transparentCircleRadius,transparentCircleColor,maxAngle|
+| `PieChartConfig`                 | `Object`   | **Required Keys.**  legend, data, highlights, description,logEnabled,chartBackgroundColor,extraOffsets,entryLabelColor,entryLabelTextSize,drawEntryLabels,rotationEnabled,rotationAngle,usePercentValues,styledCenterText,size,centerTextRadiusPercent,holeRadius,holeColor,transparentCircleRadius,transparentCircleColor,maxAngle|
+| `ScatterChartConfig`                 | `Object`   | **Required Keys.**  legend, data, marker|
+| `StockChartConfig`                 | `Object`   | **Required Keys.**  priceXaxis, volumeXaxis, visibleRange,CombinedData,volumeData|
