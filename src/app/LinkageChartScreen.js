@@ -9,21 +9,16 @@ import {
 import update from 'immutability-helper';
 
 import {LineChart} from 'react-native-charts-wrapper';
+import { LinkageChartConfig } from './ChartConfig';
 
 class LinkageChartScreen extends React.Component {
 
   constructor() {
     super();
-
+    this.configuration = LinkageChartConfig();
     this.state = {
-      priceData: {dataSets: [{
-        values: Array.from(new Array(600), (val, index) => index),
-        label: 'price',
-      }]},
-      volumeData: {dataSets: [{
-        values: Array.from(new Array(600), (val, index) => index),
-        label: 'volume',
-      }]}
+      priceData: this.configuration.priceData,
+      volumeData: this.configuration.volumeData
     }
   }
 
@@ -48,15 +43,13 @@ class LinkageChartScreen extends React.Component {
             style={styles.chart}
             data={this.state.priceData}
             xAxis={this.state.xAxis}
-            group="stock"
-            identifier="price"
-            syncX={true}
-            syncY={true}
-
-            visibleRange={{x:{min:1, max:100}}}
-            dragDecelerationEnabled={false}
-            doubleTapToZoomEnabled={false}  // it has to be false!!
-
+            group={this.configuration.group}
+            identifier={this.configuration.identifierChart1}
+            syncX={this.configuration.syncX}
+            syncY={this.configuration.syncY}
+            visibleRange={this.configuration.visibleRange}
+            dragDecelerationEnabled={this.configuration.dragDecelerationEnabled}
+            doubleTapToZoomEnabled={this.configuration.doubleTapToZoomEnabled}  // it has to be false!!
           />
         </View>
 
@@ -65,14 +58,13 @@ class LinkageChartScreen extends React.Component {
             style={styles.chart}
             data={this.state.volumeData}
             xAxis={this.state.xAxis}
-            group="stock"
-            identifier="volume"
-            syncX={true}
-            syncY={true}
-
-            visibleRange={{x:{min:1, max:100}}}
-            dragDecelerationEnabled={false}
-            doubleTapToZoomEnabled={false}  // it has to be false!!
+            group={this.configuration.group}
+            identifier={this.configuration.identifierChart2}
+            syncX={this.configuration.syncX}
+            syncY={this.configuration.syncY}
+            visibleRange={this.configuration.visibleRange}
+            dragDecelerationEnabled={this.configuration.dragDecelerationEnabled}
+            doubleTapToZoomEnabled={this.configuration.doubleTapToZoomEnabled}  // it has to be false!!
           />
 
         </View>

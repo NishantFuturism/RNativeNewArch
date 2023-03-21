@@ -8,47 +8,14 @@ import {
 } from 'react-native';
 
 import {BarChart} from 'react-native-charts-wrapper';
+import { ChartBarConfig } from './ChartConfig';
 
 class BarChartScreen extends React.Component {
 
   constructor() {
     super();
 
-    this.state = {
-      legend: {
-        enabled: true,
-        textSize: 14,
-        form: 'SQUARE',
-        formSize: 14,
-        xEntrySpace: 10,
-        yEntrySpace: 5,
-        formToTextSpace: 5,
-        wordWrapEnabled: true,
-        maxSizePercent: 0.5
-      },
-      data: {
-        dataSets: [{
-          values: [{y: 100}, {y: 105}, {y: 102}, {y: 110}, {y: 114}, {y: 109}, {y: 105}, {y: 99}, {y: 95}],
-          label: 'Bar dataSet',
-          config: {
-            color: processColor('teal'),
-            barShadowColor: processColor('lightgrey'),
-            highlightAlpha: 90,
-            highlightColor: processColor('red'),
-          }
-        }],
-
-        config: {
-          barWidth: 0.7,
-        }
-      },
-      highlights: [{x: 3}, {x: 6}],
-      xAxis: {
-        valueFormatter: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-        granularityEnabled: true,
-        granularity : 1,
-      }
-    };
+    this.state = ChartBarConfig(processColor);
   }
 
   handleSelect(event) {

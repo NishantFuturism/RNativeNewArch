@@ -10,55 +10,25 @@ import update from 'immutability-helper';
 
 import _ from 'lodash';
 import {BubbleChart} from 'react-native-charts-wrapper';
+import { ChartBubbleConfig } from './ChartConfig';
 
 class BubbleChartScreen extends React.Component {
 
   constructor() {
     super();
-
+    const size = 10;
+    this.configuration = ChartBubbleConfig(processColor,this._randomYValues,size);
     this.state = {
-      legend: {
-        enabled: true,
-        textSize: 14,
-        form: 'CIRCLE',
-        wordWrapEnabled: true
-      },
-      animation: {
-        durationX: 1500,
-        durationY: 1500,
-        easingX: 'EaseInCirc'
-      }
+      legend: this.configuration.legend,
+      animation: this.configuration.animation
     };
   }
 
   componentDidMount() {
-    const size = 10;
+    
     this.setState(
       update(this.state, {
-        data: {
-          $set: {
-            dataSets: [{
-              values: this._randomYValues(20, size),
-              label: 'DS 1',
-              config: {
-                color: processColor('#C0FF8C'),
-                highlightCircleWidth: 2
-              }
-            }, {
-              values: this._randomYValues(20, size),
-              label: 'DS 2',
-              config: {
-                color: processColor('#FFF78C')
-              }
-            }, {
-              values: this._randomYValues(20, size),
-              label: 'DS 3',
-              config: {
-                color: processColor('#FFD08C')
-              }
-            }],
-          }
-        }
+        data: this.configuration.data
       })
     );
   }

@@ -10,67 +10,32 @@ import update from 'immutability-helper';
 
 import _ from 'lodash';
 import {ScatterChart} from 'react-native-charts-wrapper';
+import { ScatterChartConfig } from './ChartConfig';
 
 class ScatterChartScreen extends React.Component {
 
   constructor() {
     super();
-
+    const size = 30;
+    const range = 20;
+    this.configuration = ScatterChartConfig(processColor,this._randomYValues,size,range);
     this.state = {
-      legend: {
-        enabled: true,
-        textSize: 14,
-        form: 'CIRCLE',
-        wordWrapEnabled: true
-      },
-      marker: {
-        enabled: true,
-        type: 'com.github.reactNativeMPAndroidChart.example.marker.OvalBlueMarker'
-      }
+      legend: this.configuration.legend,
+      marker: this.configuration.marker
     };
   }
 
   componentDidMount() {
-    const size = 30;
-    const range = 20;
+    
 
     this.setState(
       update(this.state, {
-        data: {
-          $set: {
-            dataSets: [{
-              values: this._randomYValues(range, size),
-              label: 'DS 1',
-              config: {
-                color: processColor('gray'),
-                scatterShape: 'X'
-              }
-            }, {
-              values: this._randomYValues(range, size),
-              label: 'DS 2',
-              config: {
-                color: processColor('blue'),
-                scatterShape: 'CIRCLE',
-                scatterShapeHoleRadius: 6,
-                scatterShapeHoleColor: processColor('teal')
-              }
-            }, {
-              values: this._randomYValues(range, size),
-              label: 'DS 3',
-              config: {
-                color: processColor('green'),
-                drawHighlightIndicators: false,
-                scatterShape: 'SQUARE',
-                scatterShapeSize: 8
-              }
-            }],
-          }
-        }
+        data: this.configuration.data
       })
     );
   }
 
-  _randomYValues(range: number, size: number) {
+  _randomYValues(range, size) {
     return _.times(size, () => {
       return {y: Math.random() * range}
     });

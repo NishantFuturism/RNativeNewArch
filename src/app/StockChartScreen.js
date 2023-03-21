@@ -10,6 +10,7 @@ import {
 import moment from 'moment'
 
 import {BarChart, CombinedChart} from 'react-native-charts-wrapper';
+import { StockChartConfig } from './ChartConfig';
 
 
 const era = moment('1970-01-01', 'YYYY-MM-DD')
@@ -22,33 +23,15 @@ class StockChartScreen extends React.Component {
 
   constructor() {
     super();
-
+    this.configuration = StockChartConfig(processColor);
     this.isLoading = false
     this.xMin = 0
     this.xMax = 0
 
     this.state = {
-      priceXAxis: {
-        drawLabels: false,
-        granularity: 1,
-        granularityEnabled: true,
-        valueFormatter: 'date',
-        valueFormatterPattern: 'MM-dd',
-        since: 0,
-        timeUnit: 'DAYS'
-      },
-      volumeXAxis: {
-        drawLabels: true,
-        position: 'BOTTOM',
-        granularity: 1,
-        granularityEnabled: true,
-        valueFormatter: 'date',
-        valueFormatterPattern: 'MM-dd',
-        since: 0,
-        timeUnit: 'DAYS'
-      },
-
-      visibleRange: {x: {min: 1, max: 30}},
+      priceXAxis: this.configuration.priceXAxis,
+      volumeXAxis: this.configuration.volumeXAxis,
+      visibleRange: this.configuration.visibleRange,
     }
   }
 

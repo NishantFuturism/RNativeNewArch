@@ -9,26 +9,18 @@ import {
 import update from 'immutability-helper';
 
 import {LineChart} from 'react-native-charts-wrapper';
+import { LineChartConfig } from './ChartConfig';
 
 class LineChartScreen extends React.Component {
 
   constructor() {
     super();
-
+    this.configuration = LineChartConfig(processColor);
     this.state = {
       data: {},
 
-      marker: {
-        enabled: true,
-        digits: 2,
-        backgroundTint: processColor('teal'),
-        markerColor: processColor('#F0C0FF8C'),
-        textColor: processColor('white'),
-      },
-      xAxis: {
-        granularityEnabled: true,
-        granularity: 1,
-      },
+      marker: this.configuration.marker,
+      xAxis: this.configuration.xAxis,
       // visibleRange: {x: {min: 1, max: 2}}
     };
   }
@@ -37,17 +29,7 @@ class LineChartScreen extends React.Component {
 
     this.setState(
       update(this.state, {
-        data: {
-          $set: {
-            dataSets: [{
-              values: [{x: 4, y: 135}, {x: 5, y: 0.88}, {x: 6, y: 0.77}, {x: 7, y: 105}], label: 'A',
-            }, {
-              values: [{x: 4, y: 105}, {x: 5, y: 90}, {x: 6, y: 130}, {x: 7, y: 100}], label: 'B',
-            }, {
-              values: [{x: 4, y: 110}, {x: 5, y: 110}, {x: 6, y: 105}, {x: 7, y: 115}], label: 'C',
-            }],
-          }
-        }
+        data: this.configuration.data
       })
     );
 
@@ -126,25 +108,25 @@ class LineChartScreen extends React.Component {
             legend={this.state.legend}
             marker={this.state.marker}
             xAxis={this.state.xAxis}            
-            drawGridBackground={false}
-            borderColor={processColor('teal')}
-            borderWidth={1}
-            drawBorders={true}
-            autoScaleMinMaxEnabled={false}
-            touchEnabled={true}
-            dragEnabled={true}
-            scaleEnabled={true}
-            scaleXEnabled={true}
-            scaleYEnabled={true}
-            pinchZoom={true}
-            doubleTapToZoomEnabled={true}
-            highlightPerTapEnabled={true}
-            highlightPerDragEnabled={false}
+            drawGridBackground={this.configuration.drawGridBackground}
+            borderColor={this.configuration.borderColor}
+            borderWidth={this.configuration.borderWidth}
+            drawBorders={this.configuration.drawBorders}
+            autoScaleMinMaxEnabled={this.configuration.autoScaleMinMaxEnabled}
+            touchEnabled={this.configuration.touchEnabled}
+            dragEnabled={this.configuration.dragEnabled}
+            scaleEnabled={this.configuration.scaleEnabled}
+            scaleXEnabled={this.configuration.scaleXEnabled}
+            scaleYEnabled={this.configuration.scaleYEnabled}
+            pinchZoom={this.configuration.pinchZoom}
+            doubleTapToZoomEnabled={this.configuration.doubleTapToZoomEnabled}
+            highlightPerTapEnabled={this.configuration.highlightPerTapEnabled}
+            highlightPerDragEnabled={this.configuration.highlightPerDragEnabled}
             // visibleRange={this.state.visibleRange}
-            dragDecelerationEnabled={true}
-            dragDecelerationFrictionCoef={0.99}
+            dragDecelerationEnabled={this.configuration.dragDecelerationEnabled}
+            dragDecelerationFrictionCoef={this.configuration.dragDecelerationFrictionCoef}
+            keepPositionOnRotation={this.configuration.keepPositionOnRotation}
             ref="chart"
-            keepPositionOnRotation={false}
             onSelect={this.handleSelect.bind(this)}            
           />
         </View>

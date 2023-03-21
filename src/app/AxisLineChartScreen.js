@@ -10,6 +10,7 @@ import update from 'immutability-helper';
 
 import _ from 'lodash';
 import {LineChart} from 'react-native-charts-wrapper';
+import { ChartAxisConfig } from './ChartConfig';
 
 const COLOR_PURPLE = processColor('#697dfb');
 
@@ -30,53 +31,9 @@ class AxisLineChartScreen extends React.Component {
     const size = 30;
 
     this.setState(
-      update(this.state, {
-        xAxis: {
-          $set: {
-            textColor: processColor('red'),
-            textSize: 16,
-            gridColor: processColor('red'),
-            gridLineWidth: 1,
-            axisLineColor: processColor('darkgray'),
-            axisLineWidth: 1.5,
-            gridDashedLine: {
-              lineLength: 10,
-              spaceLength: 10
-            },
-            avoidFirstLastClipping: true,
-            position: 'BOTTOM'
-          }
-        },
-        yAxis: {
-          $set: {
-            left: {
-              drawGridLines: false
-            },
-            right: {
-              enabled: false
-            }
-          }
-        },
-        data: {
-          $set: {
-            dataSets: [{
-              values: this._randomYValues(valueRange, size),
-              label: '',
-              config: {
-                lineWidth: 1.5,
-                drawCircles: false,
-                drawCubicIntensity: 0.3,
-                drawCubic: true,
-                drawHighlightIndicators: false,
-                color: COLOR_PURPLE,
-                drawFilled: true,
-                fillColor: COLOR_PURPLE,
-                fillAlpha: 90
-              }
-            }],
-          }
-        }
-      })
+      update(this.state, 
+        ChartAxisConfig(processColor,this._randomYValues,COLOR_PURPLE,valueRange,size)
+      )
     );
   }
 
