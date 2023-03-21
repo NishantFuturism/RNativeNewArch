@@ -864,13 +864,6 @@ export const ScatterChartConfig = (processColor,_randomYValues,size,range) => {
 
 ## Functions
 
-| Name | Type | Description |
-
-                                                                                                                               
-
-
-
-
 
 | Name      | Type     | Description                                                                     |
 | --------- | -------- | ------------------------------------------------------------------------------- |
