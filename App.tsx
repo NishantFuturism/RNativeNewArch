@@ -21,6 +21,7 @@ import {
   Colors
 } from 'react-native/Libraries/NewAppScreen';
 import RNBootSplash from "react-native-bootsplash";
+import AndroidMaps from './src/AndroidMaps';
 
 
 
@@ -37,17 +38,7 @@ function App(): JSX.Element {
   }, []);
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-       <Text style={{backgroundColor : 'red'}}>Hi There</Text>
-      </ScrollView>
-    </SafeAreaView>
+    <AndroidMaps/>
   );
 }
 
