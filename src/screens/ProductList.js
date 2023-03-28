@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import {Text,View,StyleSheet, FlatList, ActivityIndicatorComponent, ActivityIndicator,Switch, TouchableOpacity} from 'react-native';
+import {Text,View,StyleSheet, FlatList, ActivityIndicatorComponent, ActivityIndicator,Switch, TouchableOpacity, Image} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import ReusableFlatlist from '../components/ReusableFlatlist';
 import Colors from '../constants/Colors';
@@ -60,6 +60,7 @@ const ProductList = props => {
 
       const renderSwitchButton = () => {
         return (
+          <>
           <Switch
         trackColor={{false: '#767577', true: '#81b0ff'}}
         thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
@@ -67,6 +68,16 @@ const ProductList = props => {
         onValueChange={toggleViewHandler}
         value={isEnabled}
       />
+      {/* <View>
+        <Image 
+      style={{width : 25,height : 25}}
+       source={{
+          uri: isEnabled ? 'https://cdn-icons-png.flaticon.com/512/3603/3603555.png' : 'https://cdn-icons-png.flaticon.com/512/6800/6800771.png',
+        }}
+        />
+      </View> */}
+          </>
+          
         )
       }
  
