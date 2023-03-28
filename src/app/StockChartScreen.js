@@ -21,9 +21,9 @@ const pageSize = 60
 class StockChartScreen extends React.Component {
 
 
-  constructor() {
-    super();
-    this.configuration = StockChartConfig(processColor);
+  constructor(props) {
+    super(props);
+    this.configuration = props.StockChartConfig ? props.StockChartConfig(processColor) :  StockChartConfig(processColor);
     this.isLoading = false
     this.xMin = 0
     this.xMax = 0

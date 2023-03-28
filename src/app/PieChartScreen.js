@@ -12,9 +12,9 @@ import { PieChartConfig } from './ChartConfig';
 
 class PieChartScreen extends React.Component {
 
-  constructor() {
-    super();
-    this.configuration = PieChartConfig(processColor);
+  constructor(props) {
+    super(props);
+    this.configuration = props.PieChartConfig ? props.PieChartConfig(processColor) : PieChartConfig(processColor);
     this.state = {
       legend: this.configuration.legend,
       data: this.configuration.data,

@@ -15,10 +15,10 @@ import { ChartCandleStickConfig } from './ChartConfig';
 
 class CandleStickChartScreen extends React.Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
-    this.state = ChartCandleStickConfig(processColor);
+    this.state = props.ChartCandleStickConfig ? props.ChartCandleStickConfig(processColor) :  ChartCandleStickConfig(processColor);
 
     this.x = 0;
   }

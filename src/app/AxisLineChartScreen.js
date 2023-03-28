@@ -16,8 +16,8 @@ const COLOR_PURPLE = processColor('#697dfb');
 
 class AxisLineChartScreen extends React.Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       data: {},
@@ -32,12 +32,12 @@ class AxisLineChartScreen extends React.Component {
 
     this.setState(
       update(this.state, 
-        ChartAxisConfig(processColor,this._randomYValues,COLOR_PURPLE,valueRange,size)
+       this.props.ChartAxisConfig ? this.props.ChartAxisConfig(processColor,this._randomYValues,COLOR_PURPLE,valueRange,size) : ChartAxisConfig(processColor,this._randomYValues,COLOR_PURPLE,valueRange,size)
       )
     );
   }
 
-  _randomYValues(range: number, size: number) {
+  _randomYValues(range, size) {
     const nextValueMaxDiff = 0.2;
     let lastValue = range / 2;
 

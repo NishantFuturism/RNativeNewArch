@@ -11,10 +11,10 @@ import { ChartGroupBarConfig } from './ChartConfig';
 
 class StackedBarChartScreen extends React.Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
-    this.state = ChartGroupBarConfig(processColor);
+    this.state = props.ChartGroupBarConfig ? props.ChartGroupBarConfig(processColor) : ChartGroupBarConfig(processColor);
   }
 
     componentDidMount() {

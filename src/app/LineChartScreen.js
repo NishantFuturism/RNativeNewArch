@@ -13,9 +13,9 @@ import { LineChartConfig } from './ChartConfig';
 
 class LineChartScreen extends React.Component {
 
-  constructor() {
-    super();
-    this.configuration = LineChartConfig(processColor);
+  constructor(props) {
+    super(props);
+    this.configuration = props.LineChartConfig ? props.LineChartConfig(processColor) :  LineChartConfig(processColor);
     this.state = {
       data: {},
 

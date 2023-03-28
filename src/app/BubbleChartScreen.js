@@ -14,10 +14,10 @@ import { ChartBubbleConfig } from './ChartConfig';
 
 class BubbleChartScreen extends React.Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     const size = 10;
-    this.configuration = ChartBubbleConfig(processColor,this._randomYValues,size);
+    this.configuration = props.ChartBubbleConfig ? props.ChartBubbleConfig(processColor,this._randomYValues,size) :  ChartBubbleConfig(processColor,this._randomYValues,size);
     this.state = {
       legend: this.configuration.legend,
       animation: this.configuration.animation
@@ -33,7 +33,7 @@ class BubbleChartScreen extends React.Component {
     );
   }
 
-  _randomYValues(range: number, size: number) {
+  _randomYValues(range, size) {
     return _.times(size, (index) => {
       return {
         y: Math.random() * range,

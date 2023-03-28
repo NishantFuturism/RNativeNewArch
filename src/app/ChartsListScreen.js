@@ -22,6 +22,7 @@ import GroupBarChartScreen from "./GroupBarChartScreen";
 import InfiniteScrollLineChartScreen from "./InfiniteScrollLineChartScreen";
 import LinkageChartScreen from "./LinkageChartScreen";
 import StockChartScreen from "./StockChartScreen";
+import { PieChartConfig } from "./ChartConfig";
 
 const styles = StyleSheet.create({
   item: {
@@ -54,6 +55,7 @@ var ExampleRoutes = {
     name: 'PieChart',
     screen: PieChartScreen,
     description: 'Displays a PieChart',
+    PieChartConfig : PieChartConfig
   },
   BarChartScreen: {
     name: 'BarChart',

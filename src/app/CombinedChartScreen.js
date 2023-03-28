@@ -19,9 +19,9 @@ const styles = StyleSheet.create({
 
 export default class Combined extends Component {
 
-  constructor() {
-    super();
-    this.state = ChartCombinedConfig(processColor);
+  constructor(props) {
+    super(props);
+    this.state = props.ChartCombinedConfig? props.ChartCombinedConfig(processColor) : ChartCombinedConfig(processColor);
 
   }
 

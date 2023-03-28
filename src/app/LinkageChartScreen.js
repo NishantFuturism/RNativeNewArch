@@ -13,9 +13,9 @@ import { LinkageChartConfig } from './ChartConfig';
 
 class LinkageChartScreen extends React.Component {
 
-  constructor() {
-    super();
-    this.configuration = LinkageChartConfig();
+  constructor(props) {
+    super(props);
+    this.configuration = props.LinkageChartConfig ? props.LinkageChartConfig() : LinkageChartConfig();
     this.state = {
       priceData: this.configuration.priceData,
       volumeData: this.configuration.volumeData

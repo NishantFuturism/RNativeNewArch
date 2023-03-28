@@ -14,11 +14,11 @@ import { ScatterChartConfig } from './ChartConfig';
 
 class ScatterChartScreen extends React.Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     const size = 30;
     const range = 20;
-    this.configuration = ScatterChartConfig(processColor,this._randomYValues,size,range);
+    this.configuration = props.ScatterChartConfig ? props.ScatterChartConfig(processColor,this._randomYValues,size,range) : ScatterChartConfig(processColor,this._randomYValues,size,range);
     this.state = {
       legend: this.configuration.legend,
       marker: this.configuration.marker

@@ -12,10 +12,10 @@ import { HorizontalBarConfig } from './ChartConfig';
 
 class HorizontalBarChartScreen extends React.Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
-    this.state = HorizontalBarConfig(processColor);
+    this.state = props.HorizontalBarConfig ? props.HorizontalBarConfig(processColor) : HorizontalBarConfig(processColor);
   }
 
   handleSelect(event) {

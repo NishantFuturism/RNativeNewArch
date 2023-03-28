@@ -25,6 +25,8 @@ import RNBootSplash from "react-native-bootsplash";
 import {LineChart} from 'react-native-charts-wrapper';
 import { NavigationContainer } from '@react-navigation/native';
 import ChartsListScreen from '../futurismts/src/app/ChartsListScreen';
+import BarChartScreen from './src/app/BarChartScreen';
+import { ChartBarConfig } from './src/app/ChartConfig';
 
 
 function App(): JSX.Element {
@@ -40,7 +42,10 @@ function App(): JSX.Element {
   }, []);
 
   return (
-    
+    //You can uncomment this to directly use the charts on App.js
+    // <AxisLineChartScreen ChartAxisConfig={ChartAxisConfig}/>
+    // <BarChartScreen ChartBarConfig={ChartBarConfig}/>
+
     <NavigationContainer>
     <ChartsListScreen/>
     

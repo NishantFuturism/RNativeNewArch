@@ -16,9 +16,9 @@ const greenBlue = "rgb(26, 182, 151)";
 const petrel = "rgb(59, 145, 153)";
 
 class LineChartScreen extends React.Component {
-  constructor() {
-    super();
-    this.configuration = LineChartGradientConfig(processColor,petrel,greenBlue);
+  constructor(props) {
+    super(props);
+    this.configuration = props.LineChartGradientConfig ? props.LineChartGradientConfig(processColor,petrel,greenBlue) : LineChartGradientConfig(processColor,petrel,greenBlue);
     this.state = {};
   }
 

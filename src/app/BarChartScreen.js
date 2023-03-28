@@ -12,10 +12,10 @@ import { ChartBarConfig } from './ChartConfig';
 
 class BarChartScreen extends React.Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
-    this.state = ChartBarConfig(processColor);
+    this.state = props.ChartBarConfig ? props.ChartBarConfig(processColor) : ChartBarConfig(processColor);
   }
 
   handleSelect(event) {
