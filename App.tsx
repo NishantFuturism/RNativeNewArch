@@ -22,6 +22,8 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import RNBootSplash from "react-native-bootsplash";
 import AndroidMaps from './src/AndroidMaps';
+import ExampleMaps from './src/reusableMapComponents/exampleMaps';
+import PolygonCreator from './src/reusableMapComponents/polygonCreator';
 
 
 
@@ -38,7 +40,9 @@ function App(): JSX.Element {
   }, []);
 
   return (
-    <AndroidMaps/>
+    // <AndroidMaps/>
+    <ExampleMaps/>
+    // <PolygonCreator/>
   );
 }
 
