@@ -60,7 +60,8 @@ const ProductList = props => {
 
       const renderSwitchButton = () => {
         return (
-          <>
+          <View style={{flexDirection : 'row',alignItems : 'center',justifyContent : 'center'}}>
+            <Text style={{fontWeight : 'bold'}}>Switch to {isEnabled ? 'List' : 'Grid'}</Text>
           <Switch
         trackColor={{false: '#767577', true: '#81b0ff'}}
         thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
@@ -76,7 +77,7 @@ const ProductList = props => {
         }}
         />
       </View> */}
-          </>
+          </View>
           
         )
       }
