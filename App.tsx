@@ -22,8 +22,8 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import RNBootSplash from "react-native-bootsplash";
 import AndroidMaps from './src/AndroidMaps';
-import ExampleMaps from './src/reusableMapComponents/exampleMaps';
-import PolygonCreator from './src/reusableMapComponents/polygonCreator';
+import ExampleMaps from './src/ReusableMapComponents/exampleMaps';
+import PolygonCreator from './src/ReusableMapComponents/polygonCreator';
 
 
 

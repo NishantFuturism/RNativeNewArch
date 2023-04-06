@@ -136,16 +136,20 @@ class ExampleMaps extends Component {
           onPress={e => this.onPress(e)}
           {...mapOptions}
         >
-          {this.state.polygons.map(polygon => (
-            <Polygon
-              key={polygon.id}
-              coordinates={polygon.coordinates}
-              holes={polygon.holes}
-              strokeColor="#F00"
-              fillColor="rgba(255,0,0,0.5)"
-              strokeWidth={1}
-            />
-          ))}
+          {this.state.polygons.map(polygon => {
+            console.log("=====<<<<<",polygon);
+            console.log("=====>>>>>",JSON.stringify(polygon.holes[0]))  ;
+            return (
+              <Polygon
+                key={polygon.id}
+                coordinates={polygon.coordinates}
+                holes={polygon.holes}
+                strokeColor="#F00"
+                fillColor="rgba(255,0,0,0.5)"
+                strokeWidth={1}
+              />
+            )
+          })}
           {this.state.editing && (
             <Polygon
               key={this.state.editing.id}

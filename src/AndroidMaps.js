@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { PermissionsAndroid, StyleSheet, TouchableOpacity } from "react-native";
 import MapView, { PROVIDER_GOOGLE, Marker, Heatmap, Polygon } from "react-native-maps";
 import { points } from "./Points";
-import GoogleGeoJson from "./reusableMapComponents/GoogleGeoJson";
-import GoogleHeatmap from "./reusableMapComponents/GoogleHeatmap";
-import GoogleMarker from "./reusableMapComponents/GoogleMarker";
+import GoogleGeoJson from "./ReusableMapComponents/GoogleGeoJson";
+import GoogleHeatmap from "./ReusableMapComponents/GoogleHeatmap";
+import GoogleMarker from "./ReusableMapComponents/GoogleMarker";
 
 const AndroidMaps = props => {
 
