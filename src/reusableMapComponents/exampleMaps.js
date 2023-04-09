@@ -39,13 +39,41 @@ class ExampleMaps extends Component {
     }
   }
 
+
+  componentDidMount(){
+    fetch('http://192.168.3.225:4242/areas/getGeofencedArea').then(async res => {
+    let convertedResp = await res.json() 
+    if(convertedResp.areas){
+      // convertedResp = JSON.parse(convertedResp.areas[0]);
+      // console.log(this.state.polygons)
+      let arr = [];
+      convertedResp.areas.map((item,index) => { 
+        // console.log("item.area.coordinates[0]",item.area.coordinates[0][0]);       
+       arr.push({
+        id : item._id,
+        coordinates : item.area.coordinates[0],
+        holes : [],
+        name : item.name
+      })
+      })
+      // console.log("ARR",JSON.stringify(arr[0].coordinates));
+      this.setState({ polygons : arr })
+      
+    }
+     
+    });
+  }
+
   finish() {
    const { polygons, editing } = this.state;
    this.setState({
    polygons: [...polygons, editing],
    editing: null,
    creatingHole: false,
+  },() => {
+    this.savePolygonToServer()
   });
+  
   }
 
   clear = () => {
@@ -54,6 +82,39 @@ class ExampleMaps extends Component {
       editing: null,
       creatingHole: false
     })
+  }
+
+  savePolygonToServer = () => {
+    // bdy.name = "manish nagar";
+    const polyg = [];
+    // console.log("this.state.polygons",this.state.polygons[0].coordinates);
+    this.state.polygons.map((polygon,index) => {
+      let bdy = null;
+      const coordinates = [];
+      bdy = {...polygon};
+      bdy.name = "manish nagar" + index.toString();
+      polygon.coordinates.map(points => {
+         coordinates.push([points.longitude,points.latitude]);
+      })
+      coordinates.push(coordinates[0]);
+      bdy.coordinates = coordinates;
+      polyg.push(bdy);
+    })
+  
+    // bdy.rawDataPolygon = this.state.polygons;
+    // console.log("JSON.stringify(polyg)",JSON.stringify(polyg));
+ 
+    
+    fetch('http://192.168.3.225:4242/areas/addAreaBoundaries', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(polyg),
+    }).then(res => {
+      console.log(res);
+    });
   }
 
   createHole() {
@@ -137,8 +198,6 @@ class ExampleMaps extends Component {
           {...mapOptions}
         >
           {this.state.polygons.map(polygon => {
-            console.log("=====<<<<<",polygon);
-            console.log("=====>>>>>",JSON.stringify(polygon.holes[0]))  ;
             return (
               <Polygon
                 key={polygon.id}
