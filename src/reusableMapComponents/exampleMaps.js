@@ -69,7 +69,7 @@ class ExampleMaps extends Component {
   };
 
   getPolygons = () => {
-    fetch('http://192.168.3.225:4242/areas/getGeofencedArea').then(async res => {
+    fetch('http://192.168.4.93:4242/areas/getGeofencedArea').then(async res => {
       let convertedResp = await res.json()
       if (convertedResp.areas) {
         // convertedResp = JSON.parse(convertedResp.areas[0]);
@@ -91,7 +91,7 @@ class ExampleMaps extends Component {
   }
 
   getPinPoints = () => {
-    fetch('http://192.168.3.225:4242/maps/getPlacesPinpoints').then(async res => {
+    fetch('http://192.168.4.93:4242/maps/getPlacesPinpoints').then(async res => {
       let convertedResp = await res.json()
       if (convertedResp.places) {
         // convertedResp = JSON.parse(convertedResp.areas[0]);
@@ -103,6 +103,7 @@ class ExampleMaps extends Component {
         })
         // console.log("ARR",JSON.stringify(arr[0].coordinates));
         this.setState({ pinpointPlaces : arr })
+        this.setState({createPinModeActive : false})
       }
     });
   }
@@ -130,7 +131,7 @@ class ExampleMaps extends Component {
       return;
     } 
     console.log(_ids);
-    fetch('http://192.168.3.225:4242/areas/deleteAllGeofencedArea', {
+    fetch('http://192.168.4.93:4242/areas/deleteAllGeofencedArea', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -152,7 +153,7 @@ class ExampleMaps extends Component {
 
 
   deletePolygon = (id) => {
-    fetch('http://192.168.3.225:4242/areas/deleteGeofencedAreaById', {
+    fetch('http://192.168.4.93:4242/areas/deleteGeofencedAreaById', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -191,7 +192,7 @@ class ExampleMaps extends Component {
     // console.log("JSON.stringify(polyg)",JSON.stringify(polyg));
 
 
-    fetch('http://192.168.3.225:4242/areas/addAreaBoundaries', {
+    fetch('http://192.168.4.93:4242/areas/addAreaBoundaries', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -259,7 +260,7 @@ class ExampleMaps extends Component {
             }
         }
     }
-      fetch('http://192.168.3.225:4242/maps/addPlaces', {
+      fetch('http://192.168.4.93:4242/maps/addPlaces', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -463,7 +464,10 @@ class ExampleMaps extends Component {
                 fillColor="rgba(255,0,0,0.5)"
                 strokeWidth={1}
                 tappable
-                onPress={(e) => { this.deletePolygon(polygon.id) }}
+                onPress={(e) => { 
+                  // this.deletePolygon(polygon.id)
+                  this.showToastWithGravity(polygon.name)
+                 }}
               />
             )
           })}
