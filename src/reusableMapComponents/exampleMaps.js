@@ -1,18 +1,26 @@
-import React, { Component } from 'react'
+import React, {useState, useEffect,Component} from 'react';
 import {
-  StyleSheet,
-  View,
   Text,
+  TextInput,
+  View,
+  Modal,
+  TouchableWithoutFeedback,
   Dimensions,
-  TouchableOpacity
-} from 'react-native'
+  Alert,
+  Button,
+  StyleSheet,
+  TouchableOpacity,
+  ToastAndroid
+} from 'react-native';
 
 import MapView, {
   MAP_TYPES,
   Polygon,
   ProviderPropType,
-  PROVIDER_GOOGLE
+  PROVIDER_GOOGLE,
+  Marker
 } from 'react-native-maps'
+import GoogleMarker from './GoogleMarker';
 
 const { width, height } = Dimensions.get('window')
 
@@ -35,46 +43,78 @@ class ExampleMaps extends Component {
       },
       polygons: [],
       editing: null,
-      creatingHole: false
+      creatingHole: false,
+      polygonName : '',
+      modalVisiblility : false,
+      pinModalVisibility : false,
+      createPinModeActive : false,
+      pinpointName : '',
+      pinpointCoordinate : [],
+      pinpointPlaces : []
     }
   }
 
 
-  componentDidMount(){
+  componentDidMount() {
+    this.getPolygons();
+    this.getPinPoints();
+  }
+
+   showToastWithGravity = (msg) => {
+    ToastAndroid.showWithGravity(
+      msg,
+      ToastAndroid.SHORT,
+      ToastAndroid.CENTER,
+    );
+  };
+
+  getPolygons = () => {
     fetch('http://192.168.3.225:4242/areas/getGeofencedArea').then(async res => {
-    let convertedResp = await res.json() 
-    if(convertedResp.areas){
-      // convertedResp = JSON.parse(convertedResp.areas[0]);
-      // console.log(this.state.polygons)
-      let arr = [];
-      convertedResp.areas.map((item,index) => { 
-        // console.log("item.area.coordinates[0]",item.area.coordinates[0][0]);       
-       arr.push({
-        id : item._id,
-        coordinates : item.area.coordinates[0],
-        holes : [],
-        name : item.name
-      })
-      })
-      // console.log("ARR",JSON.stringify(arr[0].coordinates));
-      this.setState({ polygons : arr })
-      
-    }
-     
+      let convertedResp = await res.json()
+      if (convertedResp.areas) {
+        // convertedResp = JSON.parse(convertedResp.areas[0]);
+        // console.log(this.state.polygons)
+        let arr = [];
+        convertedResp.areas.map((item, index) => {
+          // console.log("item.area.coordinates[0]",item.area.coordinates[0][0]);       
+          arr.push({
+            id: item._id,
+            coordinates: item.area.coordinates[0],
+            holes: [],
+            name: item.name
+          })
+        })
+        // console.log("ARR",JSON.stringify(arr[0].coordinates));
+        this.setState({ polygons: arr })
+      }
+    });
+  }
+
+  getPinPoints = () => {
+    fetch('http://192.168.3.225:4242/maps/getPlacesPinpoints').then(async res => {
+      let convertedResp = await res.json()
+      if (convertedResp.places) {
+        // convertedResp = JSON.parse(convertedResp.areas[0]);
+        // console.log(this.state.polygons)
+        let arr = [];
+        convertedResp.places.map((place, index) => {
+          // console.log("item.area.coordinates[0]",item.area.coordinates[0][0]);       
+          arr.push({ coordinate :  {latitude: place.location.coordinates[1], longitude : place.location.coordinates[0]},name : place.name})
+        })
+        // console.log("ARR",JSON.stringify(arr[0].coordinates));
+        this.setState({ pinpointPlaces : arr })
+      }
     });
   }
 
   finish() {
-   const { polygons, editing } = this.state;
-   this.setState({
-   polygons: [...polygons, editing],
-   editing: null,
-   creatingHole: false,
-  },() => {
-    this.savePolygonToServer()
-  });
-  
+
+    this.setState({modalVisiblility : true})
+
+   
+
   }
+  
 
   clear = () => {
     this.setState({
@@ -82,29 +122,75 @@ class ExampleMaps extends Component {
       editing: null,
       creatingHole: false
     })
+    const _ids = [];
+    this.state.polygons.filter(item => {
+      _ids.push(item.id);
+    });
+    if (_ids.length == 0){
+      return;
+    } 
+    console.log(_ids);
+    fetch('http://192.168.3.225:4242/areas/deleteAllGeofencedArea', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ _ids: _ids }),
+    }).then(res => {
+      if (res.status === 200) {
+        this.setState({
+          polygons: [],
+          editing: null,
+          creatingHole: false
+        })
+      }
+    })
+
+  }
+
+
+
+  deletePolygon = (id) => {
+    fetch('http://192.168.3.225:4242/areas/deleteGeofencedAreaById', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ _id: id }),
+    }).then(res => {
+      if (res.status === 200) {
+        let polyArr = [...this.state.polygons];
+
+        polyArr = polyArr.filter(item => item.id !== id);
+        console.log("polyArr", polyArr);
+        this.setState({ polygons: polyArr });
+      }
+    });
   }
 
   savePolygonToServer = () => {
     // bdy.name = "manish nagar";
     const polyg = [];
     // console.log("this.state.polygons",this.state.polygons[0].coordinates);
-    this.state.polygons.map((polygon,index) => {
+    this.state.polygons.map((polygon, index) => {
       let bdy = null;
       const coordinates = [];
-      bdy = {...polygon};
-      bdy.name = "manish nagar" + index.toString();
+      bdy = { ...polygon };
+      bdy.name = polygon.name;
       polygon.coordinates.map(points => {
-         coordinates.push([points.longitude,points.latitude]);
+        coordinates.push([points.longitude, points.latitude]);
       })
       coordinates.push(coordinates[0]);
       bdy.coordinates = coordinates;
       polyg.push(bdy);
     })
-  
+
     // bdy.rawDataPolygon = this.state.polygons;
     // console.log("JSON.stringify(polyg)",JSON.stringify(polyg));
- 
-    
+
+
     fetch('http://192.168.3.225:4242/areas/addAreaBoundaries', {
       method: 'POST',
       headers: {
@@ -114,6 +200,7 @@ class ExampleMaps extends Component {
       body: JSON.stringify(polyg),
     }).then(res => {
       console.log(res);
+      this.getPolygons();
     });
   }
 
@@ -142,8 +229,56 @@ class ExampleMaps extends Component {
     }
   }
 
+  
+
+  onSubmitPolygonName = () => {
+    this.setState({modalVisiblility : false},() => {
+      const { polygons, editing } = this.state;
+      this.setState({
+        polygons: [...polygons, editing],
+        editing: null,
+        creatingHole: false,
+      }, () => {
+       
+        let pol = [...this.state.polygons];
+        pol[pol.length - 1].name = this.state.polygonName;  
+        this.setState({polygons : pol})
+      });
+    })
+   
+  }
+
+  onSubmitPinpointName = () => {
+    this.setState({pinModalVisibility : false},() => {
+      const placeObj = {
+        location: {
+            name: this.state.pinpointName,
+            location: {
+                type: "Point",
+                coordinates: this.state.pinpointCoordinate
+            }
+        }
+    }
+      fetch('http://192.168.3.225:4242/maps/addPlaces', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(placeObj),
+    }).then(res => {
+      if(res.status === 201){
+       //call get pinpoints api
+       console.log("success");
+       this.setState({createPinModeActive : true})
+       this.getPinPoints();
+      }
+    })
+    })
+  }
+
   onPress(e) {
-    console.log(this.state.polygons,e)
+    console.log(this.state.polygons, e)
     const { editing, creatingHole } = this.state
     if (!editing) {
       this.setState({
@@ -177,10 +312,108 @@ class ExampleMaps extends Component {
     }
   }
 
+  renderModal = () => {
+    return (
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={this.state.modalVisiblility || this.state.pinModalVisibility}
+        onRequestClose={() => {
+          // setVisiblility(false);
+          // this.setState({modalVisiblility : false})
+        }}>
+        <TouchableWithoutFeedback
+          onPress={() => {
+            // this.setState({modalVisiblility : false})
+          }}>
+          <View
+            style={{
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'rgba(0,0,0,0.5)',
+            }}>
+            <View
+              style={{
+                backgroundColor: 'white',
+                borderRadius: 3,
+              }}>
+              <View
+                style={{
+                  height: 35,
+                  justifyContent: 'center',
+                  backgroundColor: 'green',
+                }}>
+                <Text
+                  style={{
+                    color: 'black',
+                    fontSize: 12,
+                    color: 'white',
+                    textAlign: 'center',
+                    fontSize: 17,
+                  }}>
+                 {this.state.pinModalVisibility ? 'Enter Pinpoint Name' : 'Enter Polygon Name'}
+                </Text>
+              </View>
+              <Text
+                style={{
+                  color: 'black',
+                  paddingHorizontal: 10,
+                  marginTop: 12,
+                  fontSize: 16,
+                }}>
+                Please enter name below
+              </Text>
+              <TextInput
+                style={{
+                  fontSize: 12,
+                  color: '#181b1e',
+                  flex: 1,
+                  width: Dimensions.get('window').width - 68,
+                  borderWidth: 1,
+                  borderRadius: 3,
+                  borderColor: 'lightgrey',
+                  paddingHorizontal: 10,
+                  flex: null,
+                  margin: 10,
+                  fontSize: 14,
+                  alignSelf: 'center',
+                  height: 40,
+
+                }}
+                placeholderTextColor={'grey'}
+                onChangeText={(text) => {this.state.pinModalVisibility ?  this.setState({pinpointName : text}) : this.setState({polygonName : text})}}
+                value={this.state.pinModalVisibility ? this.state.pinpointName : this.state.polygonName}
+                placeholder={this.state.pinModalVisibility ? "eg.Diggin Point1" : "eg.CoalMine Zone"}
+                keyboardType="default"
+              />
+              <Button style={{ alignItems: 'center',
+                  padding: 10,
+                  // marginTop : 100,
+                  // backgroundColor: 'green',
+                  width: '100%',
+                  borderRadius: 3,
+                  marginVertical: 10,
+                  height: 34,
+                  justifyContent: 'center',
+                  padding: 0,
+                  width: Dimensions.get('window').width - 68,
+                  alignSelf: 'center'}} title={this.state.pinModalVisibility ? "Save Pinpoint" : 'Save Polygon'} color={"green"}
+                  onPress={() => {this.state.pinModalVisibility ? this.onSubmitPinpointName() : this.onSubmitPolygonName()}}
+                  />
+              
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
+    )
+  }
+
   render() {
     const mapOptions = {
       scrollEnabled: true
     }
+    
 
     if (this.state.editing) {
       mapOptions.scrollEnabled = false
@@ -189,6 +422,7 @@ class ExampleMaps extends Component {
 
     return (
       <View style={styles.container}>
+        {this.renderModal()}
         <MapView
           provider={PROVIDER_GOOGLE}
           style={styles.map}
@@ -197,6 +431,28 @@ class ExampleMaps extends Component {
           onPress={e => this.onPress(e)}
           {...mapOptions}
         >
+          {this.state.createPinModeActive && (
+        <Marker
+          coordinate={this.state.region}
+          title={"Pin For GeoFence"}
+          description={"Place Pin Anywhere"}
+          draggable
+          tappable={true}
+          onDragEnd={(e) => {console.log("onDragEnd",this.setState({pinpointCoordinate : [e.nativeEvent.coordinate.longitude , e.nativeEvent.coordinate.latitude]}) );this.setState({pinModalVisibility : true})}}
+        />
+        )}
+
+        {this.state.pinpointPlaces.map((places,index) => (
+          <Marker
+          key={index}
+          coordinate={places.coordinate}
+          title={places.name}
+          // description={"No Desc"}
+          draggable={false}
+          tappable={false}
+        />
+        ))}
+          
           {this.state.polygons.map(polygon => {
             return (
               <Polygon
@@ -206,6 +462,8 @@ class ExampleMaps extends Component {
                 strokeColor="#F00"
                 fillColor="rgba(255,0,0,0.5)"
                 strokeWidth={1}
+                tappable
+                onPress={(e) => { this.deletePolygon(polygon.id) }}
               />
             )
           })}
@@ -240,6 +498,24 @@ class ExampleMaps extends Component {
               <Text>Finish</Text>
             </TouchableOpacity>
           )}
+
+          {this.state.editing && (
+            <TouchableOpacity
+              onPress={() => {this.setState({createPinModeActive : true})}}
+              style={[styles.bubble, styles.button]}
+            >
+              <Text>Create Pin</Text>
+            </TouchableOpacity>
+          )}
+
+         
+            {this.state.polygons.length > 0 && (<TouchableOpacity
+              onPress={() => {this.savePolygonToServer()}}
+              style={[styles.bubble, styles.button]}
+            >
+              <Text>Save & Proceed</Text>
+            </TouchableOpacity>)}
+          
         </View>
         <TouchableOpacity
           onPress={() => this.clear()}
@@ -255,6 +531,8 @@ class ExampleMaps extends Component {
 ExampleMaps.propTypes = {
   provider: ProviderPropType
 }
+
+
 
 const styles = StyleSheet.create({
   container: {
