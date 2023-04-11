@@ -10,7 +10,8 @@ import {
   Button,
   StyleSheet,
   TouchableOpacity,
-  ToastAndroid
+  ToastAndroid,
+  PermissionsAndroid
 } from 'react-native';
 
 import MapView, {
@@ -20,7 +21,8 @@ import MapView, {
   PROVIDER_GOOGLE,
   Marker
 } from 'react-native-maps'
-import GoogleMarker from './GoogleMarker';
+import { Context } from './Context';
+// import GoogleMarker from './GoogleMarker';
 
 const { width, height } = Dimensions.get('window')
 
@@ -30,8 +32,10 @@ const LONGITUDE = -122.4324
 const LATITUDE_DELTA = 0.0922
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 let id = 0
+// const {updateLocation} = React.useContext(Context);
 
 class ExampleMaps extends Component {
+  static contextType = Context;
   constructor(props) {
     super(props)
     this.state = {
@@ -50,12 +54,14 @@ class ExampleMaps extends Component {
       createPinModeActive : false,
       pinpointName : '',
       pinpointCoordinate : [],
-      pinpointPlaces : []
+      pinpointPlaces : [],
+      showAndProceedBtnVisibility : true
     }
   }
 
 
   componentDidMount() {
+    // this.requestCameraPermission();
     this.getPolygons();
     this.getPinPoints();
   }
@@ -150,6 +156,20 @@ class ExampleMaps extends Component {
 
   }
 
+   requestLocationPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('You can use the Location',granted);
+      } else {
+        console.log('Location permission denied');
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+
 
 
   deletePolygon = (id) => {
@@ -199,9 +219,14 @@ class ExampleMaps extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(polyg),
-    }).then(res => {
+    }).then(async res => {
       console.log(res);
-      this.getPolygons();
+      if(res.status === 201){
+        this.setState({showAndProceedBtnVisibility : false})
+        await this.getPolygons();
+        this.props.navigation.navigate("User",{context : this.context})
+
+      }
     });
   }
 
@@ -425,11 +450,22 @@ class ExampleMaps extends Component {
       <View style={styles.container}>
         {this.renderModal()}
         <MapView
+          onMapReady={() => this.requestLocationPermission()}
+          showsUserLocation={true}
+          showsMyLocationButton={true}
+          onUserLocationChange={(e) => {
+            console.log("onUserLocationChange",e.nativeEvent.coordinate);
+            // console.log(updateLocation);
+            // updateLocation({latitude : e.nativeEvent.coordinate.latitude , longitude : e.nativeEvent.coordinate.longitude })
+            this.context.updateLocation({latitude : e.nativeEvent.coordinate.latitude , longitude : e.nativeEvent.coordinate.longitude })
+        }}
           provider={PROVIDER_GOOGLE}
           style={styles.map}
           mapType={MAP_TYPES.SATELLITE}
           initialRegion={this.state.region}
           onPress={e => this.onPress(e)}
+          onRegionChangeComplete={(e) => {this.setState({region : e})}}
+          // userLocationUpdateInterval={10000}
           {...mapOptions}
         >
           {this.state.createPinModeActive && (
@@ -513,7 +549,7 @@ class ExampleMaps extends Component {
           )}
 
          
-            {this.state.polygons.length > 0 && (<TouchableOpacity
+            {this.state.polygons.length > 0 && this.state.showAndProceedBtnVisibility && (<TouchableOpacity
               onPress={() => {this.savePolygonToServer()}}
               style={[styles.bubble, styles.button]}
             >
