@@ -34,6 +34,7 @@
     "react-native-charts-wrapper": "^0.5.11",
     "react-native-gesture-handler": "^2.4.2",
     "react-native-image-pan-zoom": "^2.1.12",
+    "react-native-maps": "^1.4.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-otp-textinput": "^0.0.9",
     "react-native-otp-verify": "^1.0.5",
