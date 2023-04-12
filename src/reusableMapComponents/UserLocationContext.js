@@ -17,7 +17,7 @@ const UserLocationContext = (props) => {
           },
          userLocation : userLoc
         }),
-        [],
+        [userLoc?.latitude,userLoc?.longitude],
       );
 
    return(

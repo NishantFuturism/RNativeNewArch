@@ -27,7 +27,7 @@ const ObjectsNearUser = (props) => {
  const  amIInsideOrOutsideArea = (myLocCoordinates) => {
   // let loc = props.route.params.context.userLocation();
   console.log("props.route.params.cf234fontext===>>>",userLocation);
-    fetch('http://192.168.4.93:4242/areas/findAreasByUserLocation', {
+    fetch('http://192.168.7.39:4242/areas/findAreasByUserLocation', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -58,7 +58,7 @@ const ObjectsNearUser = (props) => {
     arr.push(array)
   })
   console.log("placesComesUnderArea areaCoordinates==>>",arr);
-    fetch('http://192.168.4.93:4242/maps/findNearByPlacesByBoundary', {
+    fetch('http://192.168.7.39:4242/maps/findNearByPlacesByBoundary', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -90,7 +90,7 @@ const  findPlacesNearDefinedKm = (myLocCoordinates,maxDistance,minDistance) => {
       maxDistance : maxDistance,
       minDistance : minDistance
     }
-    fetch('http://192.168.4.93:4242/maps/findNearByPlacesByDistance', {
+    fetch('http://192.168.7.39:4242/maps/findNearByPlacesByDistance', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -119,7 +119,7 @@ const  findPlacesNearDefinedKm = (myLocCoordinates,maxDistance,minDistance) => {
     
       amIInsideOrOutsideArea([userLocation.longitude,userLocation.latitude]);
       // findPlacesNearDefinedKm([userLocation.longitude,userLocation.latitude],5000,5)
-  })
+  },[])
 
    return(
     <ScrollView contentContainerStyle={{flex : 1,justifyContent : 'center',alignItems : 'center'}}>
