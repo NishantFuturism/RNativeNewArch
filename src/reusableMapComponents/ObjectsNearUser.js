@@ -21,6 +21,8 @@ const ObjectsNearUser = (props) => {
   const [insideArea,setInsideArea] = useState(false);
   const [placesUnderArea,setPlacesUnderArea] = useState([]);
   const [placesNearDefinedKM,setPlacesNearDefinedKM] = useState([]);
+  const [maxDist,setMaxDist] = useState(5000);
+  const [minDist,setMinDist] = useState(5);
   // const { userLocation } = props.route.params.context;
   // const {context} = props.route.params;
   const userLocation = useContext(Context).userLocation;
@@ -116,23 +118,22 @@ const  findPlacesNearDefinedKm = (myLocCoordinates,maxDistance,minDistance) => {
   }
 
   useEffect(() => {
-    
       amIInsideOrOutsideArea([userLocation.longitude,userLocation.latitude]);
-      // findPlacesNearDefinedKm([userLocation.longitude,userLocation.latitude],5000,5)
+      findPlacesNearDefinedKm([userLocation.longitude,userLocation.latitude],maxDist,minDist)
   },[])
 
    return(
-    <ScrollView contentContainerStyle={{flex : 1,justifyContent : 'center',alignItems : 'center'}}>
-    <TouchableOpacity onPress={() => {amIInsideOrOutsideArea([userLocation.longitude,userLocation.latitude])}}><Text>Check if i am inside area</Text></TouchableOpacity>
-      <Text>You are {insideArea ? 'Inside' : 'Outside'} this Area</Text>
+    <ScrollView contentContainerStyle={{flex : 1,justifyContent : 'space-evenly' ,alignItems : 'center'}}>
+    <TouchableOpacity onPress={() => {amIInsideOrOutsideArea([userLocation.longitude,userLocation.latitude])}}><Text style={{fontWeight :'bold',color: 'black'}}>AM I INSIDE GEOZONE?</Text></TouchableOpacity>
+      <Text>You are <Text style={{color : insideArea ?  'green' : 'red',fontWeight : 'bold'}}>{insideArea ? 'INSIDE' : 'OUTSIDE'}</Text>the Area</Text>
     <TouchableOpacity onPress={() => {
       // placesComesUnderArea()
       // findPlacesNearDefinedKm([userLocation.longitude,userLocation.latitude],5000,5)
-      }}><Text>Check List of Places under Geozone</Text></TouchableOpacity>
+      }}><Text style={{color : 'green',fontWeight : 'bold'}}>CHECK LIST OF PLACES UNDER GEOZONE</Text></TouchableOpacity>
        {placesUnderArea.length > 0 && placesUnderArea.map((item,index) => 
         <Text key={index}>{item}</Text>
        )}
-    <TouchableOpacity onPress={() => {findPlacesNearDefinedKm([userLocation.longitude,userLocation.latitude],5000,5)}}><Text>Find Places Near Defined KM</Text></TouchableOpacity>
+    <TouchableOpacity onPress={() => {findPlacesNearDefinedKm([userLocation.longitude,userLocation.latitude],maxDist,minDist)}}><Text style={{color : '',fontWeight : 'bold'}}>FIND PLACES BETWEEN {minDist}KM TO {maxDist}KM</Text></TouchableOpacity>
     {placesNearDefinedKM.length > 0 && placesNearDefinedKM.map((item,index) => 
         <Text key={index}>{item}</Text>
        )}
