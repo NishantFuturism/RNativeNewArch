@@ -22,6 +22,7 @@ import MapView, {
   Marker
 } from 'react-native-maps'
 import { Context } from './Context';
+import MapsConfig from '../MapsConfig';
 // import GoogleMarker from './GoogleMarker';
 
 const { width, height } = Dimensions.get('window')
@@ -39,12 +40,7 @@ class ExampleMaps extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      region: {
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA
-      },
+      region: MapsConfig.initialRegion,
       polygons: [],
       editing: null,
       creatingHole: false,
@@ -451,21 +447,21 @@ class ExampleMaps extends Component {
         {this.renderModal()}
         <MapView
           onMapReady={() => this.requestLocationPermission()}
-          showsUserLocation={true}
-          showsMyLocationButton={true}
+          showsUserLocation={MapsConfig.showsUserLocation}
+          showsMyLocationButton={MapsConfig.showsMyLocationButton}
           onUserLocationChange={(e) => {
             console.log("onUserLocationChange",e.nativeEvent.coordinate);
             // console.log(updateLocation);
             // updateLocation({latitude : e.nativeEvent.coordinate.latitude , longitude : e.nativeEvent.coordinate.longitude })
             this.context.updateLocation({latitude : e.nativeEvent.coordinate.latitude , longitude : e.nativeEvent.coordinate.longitude })
         }}
-          provider={PROVIDER_GOOGLE}
+          provider={MapsConfig.provider}
           style={styles.map}
-          mapType={MAP_TYPES.SATELLITE}
+          mapType={MapsConfig.mapType}
           initialRegion={this.state.region}
           onPress={e => this.onPress(e)}
           onRegionChangeComplete={(e) => {this.setState({region : e})}}
-          userLocationUpdateInterval={10000}
+          userLocationUpdateInterval={MapsConfig.userLocationUpdateInterval}
           {...mapOptions}
         >
           {this.state.createPinModeActive && (
