@@ -21,7 +21,10 @@ import {
   Colors
 } from 'react-native/Libraries/NewAppScreen';
 import RNBootSplash from "react-native-bootsplash";
-
+import UploadMultipleFile from './src/UploadMultipleFile';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import DocumentsList from './src/DocumentsList';
 
 
 function App(): JSX.Element {
@@ -31,23 +34,25 @@ function App(): JSX.Element {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  const Stack = createNativeStackNavigator();
+
+
   useEffect(() => {
       RNBootSplash.hide({ fade: true, duration: 5000 });
       console.log("Bootsplash has been hidden successfully");
   }, []);
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
+    <NavigationContainer>
+    <Stack.Navigator initialRouteName='UploadMultipleFile'>
+      <Stack.Screen
+        name="UploadMultipleFile"
+        component={UploadMultipleFile}
+        options={{title: 'Welcome'}}
       />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-       <Text style={{backgroundColor : 'red'}}>Hi There</Text>
-      </ScrollView>
-    </SafeAreaView>
+      <Stack.Screen name="Documents" component={DocumentsList} />
+    </Stack.Navigator>
+  </NavigationContainer>
   );
 }
 

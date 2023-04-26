@@ -31,12 +31,15 @@
     "moment": "^2.29.1",
     "react": "18.2.0",
     "react-native": "0.71.0",
+    "react-native-blob-util": "^0.17.3",
     "react-native-bootsplash": "^4.4.1",
     "react-native-charts-wrapper": "^0.5.11",
+    "react-native-document-picker": "^8.2.0",
+    "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "^2.4.2",
     "react-native-image-pan-zoom": "^2.1.12",
-    "react-native-maps": "^1.4.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
+    "react-native-maps": "^1.4.0",
     "react-native-otp-textinput": "^0.0.9",
     "react-native-otp-verify": "^1.0.5",
     "react-native-pager-view": "^5.4.25",
@@ -76,6 +79,9 @@
     "typescript": "4.8.4"
   },
   "jest": {
+    "moduleNameMapper": {
+      "FormData" : "/Users/nishanti/Desktop/RN/futurismts/node_modules/form-data/lib/form_data.js"    
+    },
     "preset": "react-native",
     "setupFiles": [
       "/Users/nishanti/Desktop/RN/futurismts/jest/setup.js"
