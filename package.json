@@ -79,9 +79,6 @@
     "typescript": "4.8.4"
   },
   "jest": {
-    "moduleNameMapper": {
-      "FormData" : "/Users/nishanti/Desktop/RN/futurismts/node_modules/form-data/lib/form_data.js"    
-    },
     "preset": "react-native",
     "setupFiles": [
       "/Users/nishanti/Desktop/RN/futurismts/jest/setup.js"
