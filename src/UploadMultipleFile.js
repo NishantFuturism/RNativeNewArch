@@ -106,6 +106,10 @@ const UploadMultipleFile = (props) => {
   }
 
 const onUploadButtonPressed = async () => {
+  if(props.submit){
+    props.submit("Files Succesfully Added");
+    return;
+  }
   let docsArray = [];
   await selectDocument().then(res => {
     docsArray = res;
