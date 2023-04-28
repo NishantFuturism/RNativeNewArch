@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Alert, Button, PermissionsAndroid, Platform, Text } from "react-native";
 // import RNFS from 'react-native-fs';
 import DocumentPicker from 'react-native-document-picker';
+import { saveFileToServer } from "./Utils";
 // import ExampleFileOps from "./ExampleFileOps";
 
 const UploadMultipleFile = (props) => {
@@ -105,6 +106,9 @@ const UploadMultipleFile = (props) => {
   }
   }
 
+
+
+
 const onUploadButtonPressed = async () => {
   if(props.submit){
     props.submit("Files Succesfully Added");
@@ -130,12 +134,10 @@ var requestOptions = {
   redirect: 'follow'
 };
 
-fetch("http://192.168.43.194:4242/storage/uploadFile", requestOptions)
-  .then(response => response.text())
-  .then(result => console.log(result))
-  .catch(error => console.log('error', error));
-}
+saveFileToServer("http://192.168.43.194:4242/storage/uploadFile",requestOptions);
 
+
+}
 
 
    return(
