@@ -80,6 +80,9 @@
     "preset": "react-native",
     "setupFiles": [
       "/Users/nishanti/Desktop/RN/futurismts/jest/setup.js"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!((jest-)?react-native(-.*)?|@react-native(-community)?)/|react-native-reanimated-carousel|react-native-reanimated)"
     ]
   }
 }
