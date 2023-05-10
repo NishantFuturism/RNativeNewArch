@@ -1,12 +1,17 @@
-import React, { useEffect } from "react";
-import { Alert, Button, PermissionsAndroid, Platform, Text } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Alert, Button, Dimensions, PermissionsAndroid, Platform, Text } from "react-native";
 // import RNFS from 'react-native-fs';
 import DocumentPicker from 'react-native-document-picker';
-import { saveFileToServer } from "./Utils";
+import { saveFileToServer, saveFileToServer2 } from "./Utils";
 // import ExampleFileOps from "./ExampleFileOps";
+import * as Progress from 'react-native-progress';
 
 const UploadMultipleFile = (props) => {
 
+  const [uploadProgress,setUploadProgress] = useState(0);
+  const [loaded,setLoaded] = useState(0);
+  const [total,setTotal] = useState(0);
+  const controller = new AbortController();
   useEffect(() => {
     runPermissions()
   },[])
@@ -110,6 +115,7 @@ const UploadMultipleFile = (props) => {
 
 
 const onUploadButtonPressed = async () => {
+
   if(props.submit){
     props.submit("Files Succesfully Added");
     return;
@@ -134,7 +140,23 @@ var requestOptions = {
   redirect: 'follow'
 };
 
-saveFileToServer("http://192.168.43.194:4242/storage/uploadFile",requestOptions);
+const upload =  ({loaded, total, progress, bytes, estimated, rate, upload = true,event}) => {
+  // Do whatever you want with the Axios progress event
+  console.log("loaded",loaded);
+  console.log("total",total);
+  console.log("progress",progress);
+  console.log("bytes",bytes);
+  console.log("estimated",estimated);
+  console.log("rate",rate);
+  console.log("upload",upload);
+  console.log("event",event);
+  setLoaded(loaded);
+  setTotal(total);
+  setUploadProgress(progress)
+}
+
+saveFileToServer2("http://192.168.43.194:4242/storage/uploadFile",requestOptions.body,upload,controller);
+
 
 
 }
@@ -145,6 +167,9 @@ saveFileToServer("http://192.168.43.194:4242/storage/uploadFile",requestOptions)
     <Text accessibilityRole="header">This is UploadMultipleFile Screen</Text>
     <Button title="UploadFile" onPress={() => {onUploadButtonPressed()}} color={"darkgreen"} />
     <Button title="List Documents" onPress={() => {props.navigation.navigate("Documents")}} color={"olive"} />
+    <Progress.Bar  progress={uploadProgress} style={{alignSelf : 'center',marginVertical : 50}} color={uploadProgress === 0 ? 'red' : 'green'} width={Dimensions.get('window').width - 10} height={70} />
+    <Text style={{color : 'black',alignSelf : 'center',fontSize : 20}}>Loaded/Total = {loaded} / {total}</Text>
+    <Button disabled={uploadProgress > 0} title="Abort Upload" onPress={() => {controller.abort()}} color={"darkgreen"} />
     </>
    )
 }
