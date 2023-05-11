@@ -16,7 +16,7 @@ export default {
       }
 
       let shouldAttachBaseURL = !url.includes('://') //  API parameter already have arbitrary base url.
-      let url = shouldAttachBaseURL ? `${NetworkConstants.appConfiguration.baseUrlDev}${url}` : url
+      url = shouldAttachBaseURL ? `${NetworkConstants.appConfiguration.baseUrlDev}${url}` : url
 
       //create Body
       if (headerType['Content-Type'] === 'multipart/form-data') {
@@ -50,6 +50,13 @@ export default {
             // if(loading){
             //   controller.abort()
             // }
+            console.log("PARAMS",{
+              method: type,
+              url: url,
+              headers: headerType,
+              data: body,
+              signal: newAbortSignal(NetworkConstants.appConfiguration.serviceTimeOut)
+            });
             const response = await axios({
               method: type,
               url: url,

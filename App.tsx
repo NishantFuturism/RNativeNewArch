@@ -22,6 +22,7 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import RNBootSplash from "react-native-bootsplash";
 import NetworkManager from './src/NetworkManager';
+import NetworkConstants from './src/constants/NetworkConstants';
 
 
 
@@ -34,7 +35,7 @@ function App(): JSX.Element {
 
   useEffect(() => {
       RNBootSplash.hide({ fade: true, duration: 5000 });
-      // NetworkManager();
+      NetworkManager.httpManager(NetworkConstants.request_type.get,"https://jsonplaceholder.typicode.com/posts",NetworkConstants.headerTypes.normalHeader);
       console.log("Bootsplash has been hidden successfully");
   }, []);
 
