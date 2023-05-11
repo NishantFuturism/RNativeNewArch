@@ -35,7 +35,11 @@ function App(): JSX.Element {
 
   useEffect(() => {
       RNBootSplash.hide({ fade: true, duration: 5000 });
-      NetworkManager.httpManager(NetworkConstants.request_type.get,"https://jsonplaceholder.typicode.com/posts",NetworkConstants.headerTypes.normalHeader);
+      NetworkManager.httpManager(
+        NetworkConstants.request_type.get,
+        "https://jsonplaceholder.typicode.com/posts",
+        NetworkConstants.headerTypes.normalHeader
+        );
       console.log("Bootsplash has been hidden successfully");
   }, []);
 

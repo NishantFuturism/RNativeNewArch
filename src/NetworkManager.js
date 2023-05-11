@@ -118,9 +118,9 @@ export default {
                 break;
             }
           } catch (error) {
-            if (axios.isAxiosError(err)) {
-                AxiosError(err);
-                console.error("isAxiosError",err);
+            if (axios.isAxiosError(error)) {
+                AxiosError(error);
+                console.error("isAxiosError",error);
               }
               if (error.response) {
                 // The request was made and the server responded with a status code
