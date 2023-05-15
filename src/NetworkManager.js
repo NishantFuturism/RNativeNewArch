@@ -22,10 +22,10 @@ export default {
       if (headerType['Content-Type'] === 'multipart/form-data') {
           body = createFormData(body)
       }
-      else body = (type == NetworkConstants.request_type.get ? null : JSON.stringify(body))
+      else body = (type == NetworkConstants.request_type.get ? undefined : JSON.stringify(body))
 
       //create Url for Get
-      if (type == NetworkConstants.request_type.get && body !== null) {
+      if (type == NetworkConstants.request_type.get && body !== undefined) {
           let isfirstParameterAdded = false
           for (let [parameter, parameterValue] of Object.entries(body)) {
               if (isfirstParameterAdded) {
@@ -38,12 +38,7 @@ export default {
           }
       }
 
-      if (__DEV__) console.log(
-          "\n--------------------- [Network] ---------------------\nURL: " + url +
-          "\nMethod: " + type +
-          "\nHeaders: " + JSON.stringify(headerType) +
-          "\nParameters:\n" + '', JSON.stringify(body) + "\n"
-      )
+      
 
         try {
             // const controller = new AbortController();
@@ -64,6 +59,7 @@ export default {
               data: body,
               signal: newAbortSignal(NetworkConstants.appConfiguration.serviceTimeOut)
             });
+
            
             switch (response.status) {
               case 200:
@@ -117,29 +113,33 @@ export default {
               default:
                 break;
             }
-          } catch (error) {
+          } 
+        catch (error) {
             if (axios.isAxiosError(error)) {
-                AxiosError(error);
-                console.error("isAxiosError",error);
+                // AxiosError("lsdjfl");
+                console.log("isAxiosError",error);
+                throw new Error("url errorrrrrr");
               }
               if (error.response) {
                 // The request was made and the server responded with a status code
                 // that falls out of the range of 2xx
-                console.log(error.response.data);
-                console.log(error.response.status);
-                console.log(error.response.headers);
+                console.log("error.response.data",error.response.data);
+                console.log("error.response.status",error.response.status);
+                console.log("error.response.headers",error.response.headers);
+                throw new Error(error.response);
               } else if (error.request) {
                 // The request was made but no response was received
                 // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
                 // http.ClientRequest in node.js
-                console.log(error.request);
+                console.log("error.request",error.request);
+                throw new Error(error.request);
               } else {
                 // Something happened in setting up the request that triggered an Error
                 console.log('Error', error.message);
+                throw new Error(error.message);
               }
-              console.log(error.config);   
           }
-          finally{
+        finally{
               console.log("stop the loader");
           }
     }

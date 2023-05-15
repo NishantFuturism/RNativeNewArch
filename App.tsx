@@ -35,12 +35,11 @@ function App(): JSX.Element {
 
   useEffect(() => {
       RNBootSplash.hide({ fade: true, duration: 5000 });
-      NetworkManager.httpManager(
-        NetworkConstants.request_type.get,
-        "https://jsonplaceholder.typicode.com/posts",
-        NetworkConstants.headerTypes.normalHeader
-        );
-      console.log("Bootsplash has been hidden successfully");
+      // NetworkManager.httpManager(
+      //   NetworkConstants.request_type.get,
+      //   "http://192.168.43.194:4242/storage/getFiles",
+      //   NetworkConstants.headerTypes.normalHeader
+      //   );
   }, []);
 
   return (
