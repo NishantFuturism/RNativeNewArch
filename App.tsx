@@ -28,6 +28,7 @@ import Carousel from 'react-native-reanimated-carousel';
 import { TAnimationStyle } from './src/layouts/BaseLayout';
 import Animated, { interpolate, interpolateColor, useAnimatedStyle } from 'react-native-reanimated';
 import { SBItem } from './src/exampleExpo/src/components/SBItem';
+import App2 from './App2';
 
 
 
@@ -36,7 +37,7 @@ function App(): JSX.Element {
   const width = Dimensions.get('window').width;
 
   const [images, setImages] = useState([]);
-  const [loop,setLoop] = useState(false);
+  const [loop,setLoop] = useState(true);
   interface ItemProps {
     index: number
     animationValue: Animated.SharedValue<number>
@@ -156,80 +157,7 @@ function App(): JSX.Element {
         )}
       /> */}
 
-      <Carousel
-        loop={loop}
-        autoPlay={true}
-        style={{ width: Dimensions.get('window').width - 20, height: Dimensions.get('window').width - 20 }}
-        width={Dimensions.get('window').width - 20}
-        data={images}
-        // renderItem={({ index, animationValue }) => {
-        //   return (
-        //     <CustomItem
-        //       key={index}
-        //       index={index}
-        //       animationValue={animationValue}
-        //     />
-        //   );
-        // }}
-        renderItem={({ item, index, animationValue }) => {
-
-          const maskStyle = useAnimatedStyle(() => {
-            const backgroundColor = interpolateColor(
-              animationValue.value,
-              [-1, 0, 1],
-              ["transparent", "transparent", "transparent"],
-            );
-
-            return {
-              backgroundColor,
-            };
-          }, [animationValue]);
-
-          return (
-            <>
-              <View
-                key={index}
-                style={{
-                  flex: 1,
-                  borderWidth: 1,
-                  justifyContent: 'center',
-                }}
-              >
-                <>
-                </>
-                <Image
-                  style={{
-                    width: Dimensions.get('window').width - 20,
-                    height: Dimensions.get('window').height,
-                    marginVertical: 30,
-                    alignSelf: 'center',
-                    // aspectRatio : 40/100
-                  }}
-                  source={{
-                    uri: `http://192.168.43.194:4242/uploads/${item.name}`,
-                  }}
-                />
-              </View>
-              <Animated.View
-                pointerEvents="none"
-                style={[
-                  {
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                  },
-                  maskStyle,
-                ]}
-              />
-            </>
-          )
-        }
-        }
-        customAnimation={animationStyle}
-        scrollAnimationDuration={500}
-      />
+      <App2/>
       <Button
         onPress={() => {
           setLoop(!loop);
