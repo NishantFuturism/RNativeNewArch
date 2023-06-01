@@ -4,7 +4,7 @@ import { Button, Text,View } from "react-native";
 const HomeScreen = props => {
     return (
         <View>
-                    <Text>lsdkjfljsdfsdf</Text>
+                    <Text>Home Screen</Text>
         </View>
     )
 }
