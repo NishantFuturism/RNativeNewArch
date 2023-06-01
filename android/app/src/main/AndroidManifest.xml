@@ -9,10 +9,14 @@
       android:icon="@mipmap/ic_launcher"
       android:roundIcon="@mipmap/ic_launcher_round"
       android:allowBackup="false"
+      android:usesCleartextTraffic="true"
       android:theme="@style/BootTheme">
          <meta-data
      android:name="com.google.android.geo.API_KEY"
      android:value="AIzaSyC19_2OKCTImZ_DUuwfzwDaZy37cUe-ZUE"/>
+     <meta-data
+    android:name="com.google.android.gms.wallet.api.enabled"
+    android:value="true"/>
 
       <activity
         android:name=".MainActivity"
