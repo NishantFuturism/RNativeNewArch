@@ -22,7 +22,7 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import RNBootSplash from "react-native-bootsplash";
 import AndroidMaps from './src/AndroidMaps';
-import ExampleMaps from './src/reusableMapComponents/ExampleMaps';
+import ExampleMaps from './src/reusableMapComponents/exampleMaps';
 // import PolygonCreator from './src/ReusableMapComponents/PolygonCreator';
 import { createStackNavigator } from '@react-navigation/stack';
 import ObjectsNearUser from './src/reusableMapComponents/ObjectsNearUser';
