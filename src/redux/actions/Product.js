@@ -1,11 +1,16 @@
 import Types from '../Types';
 import Network from '../../utility/Network';
 
-export const fetchProducts = (page = 1,per_page = 100,productsFromUI) => {
+export const fetchProducts = (page = 1,per_page = 100,productsFromUI,searchText = '',filterObject) => {
   return async dispatch => {
     // any async code you want!
     try {
-      const url = Network.users + '?' + 'page=' + page + '&' + 'per_page=' + per_page;
+      const url = Network.products + '?' + 'page=' + page + '&per_page=' + per_page + '&search=' + searchText + 
+      '&titleSort=' + filterObject.titleSort +
+      '&descriptionSort=' + filterObject.descriptionSort +
+      '&priceSort=' + filterObject.priceSort +
+      '&createdSort=' + filterObject.createdSort;
+      console.log(url);
       const response = await fetch(
         url ,
         {
@@ -22,8 +27,16 @@ export const fetchProducts = (page = 1,per_page = 100,productsFromUI) => {
         console.log("page",page);
         dispatch({
           type: Types.PRODUCTS.PRODUCT_LIST_SUCCESS,
-          payload: page > 1 ? productsFromUI.concat(jsonResponse) :  jsonResponse,
+          payload: page > 1 ? productsFromUI.concat(jsonResponse.prods) :  jsonResponse.prods,
         });
+        
+        delete jsonResponse.prods;
+
+        dispatch({
+          type: Types.PRODUCTS.PRODUCT_LIST_SUCCESS_PAGE_DETAILS,
+          payload: jsonResponse,
+        });
+
       }
 
     } catch (error) {

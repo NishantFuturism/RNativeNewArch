@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {Text,View,StyleSheet, FlatList, Dimensions, Image} from 'react-native';
+import Network from '../utility/Network';
 const ProductListItem = ({item,index}) => {
     return(
         <View style={{
@@ -13,9 +14,9 @@ const ProductListItem = ({item,index}) => {
         style={{
             width : 100,height : 100,resizeMode : 'contain'
         }}
-        source={require('../../assets/bootsplash_logo_original.png')}
-      />
-            <Text>{index + 1}. I am {item.name} and {item.status}</Text>
+        source={{uri : `${Network.baseUrl + item.imageUrl}`}}
+        />
+            <Text>{index + 1}. I am {item.title} priced at {item.price}</Text>
         </View>
     )
 }

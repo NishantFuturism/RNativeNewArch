@@ -2,9 +2,10 @@ import Types from '../Types';
 
 const initialState = {
   products: [],
+  productsPageDetails : {},
   productSearchResult : [],
   isListView : true,
-  isGridView : false
+  isGridView : false,
 };
 
 export default (state = initialState, action) => {
@@ -16,6 +17,11 @@ export default (state = initialState, action) => {
         ...state,
         products: action.payload,
       };
+      case Types.PRODUCTS.PRODUCT_LIST_SUCCESS_PAGE_DETAILS:
+        return {
+          ...state,
+          productsPageDetails: action.payload,
+        };  
       case Types.PRODUCTS.PRODUCT_SEARCH_SUCCESS:
         return {
           ...state,

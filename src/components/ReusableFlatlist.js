@@ -45,7 +45,9 @@ const ReusableFlatlist = (props) => {
                         if(props.config.enableLazyLoading && props.config.isAutoLoadMore) props.scrollBegin();  
                     }}
                     // scrollEventThrottle={250}
-                    onEndReached={() => {
+                    onEndReached={({ distanceFromEnd }) => {
+                        console.log("distanceFromEnd",distanceFromEnd);
+                        if (distanceFromEnd < 0) return;
                         if(props.config.enableLazyLoading && props.config.isAutoLoadMore)  props.onBottomReached();
                     }}
                     ListEmptyComponent={RenderEmptyItem}
