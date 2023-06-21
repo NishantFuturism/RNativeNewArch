@@ -7,7 +7,7 @@ import Animated, {
 } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
 
-import type {TAnimationStyle}  from "../../../../../src/layouts/BaseLayout";
+import type {TAnimationStyle}  from "../../../../layouts/BaseLayout";
 import { SBItem } from "../../components/SBItem";
 import SButton from "../../components/SButton";
 import { ElementsText, window } from "../..";

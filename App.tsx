@@ -29,6 +29,9 @@ import { TAnimationStyle } from './src/layouts/BaseLayout';
 import Animated, { interpolate, interpolateColor, useAnimatedStyle } from 'react-native-reanimated';
 import { SBItem } from './src/exampleExpo/src/components/SBItem';
 import App2 from './App2';
+import AppParellax from './AppParellax';
+import Video from 'react-native-video';
+import Pdf from 'react-native-pdf';
 
 
 
@@ -109,7 +112,8 @@ function App(): JSX.Element {
       let response = await res.json();
       return response.files;
     }).then(final => {
-      setImages(final.filter(item => item.mimeType !== 'application/pdf'));
+      // setImages(final.filter(item => item.mimeType !== 'application/pdf'));
+      setImages(final);
     })
   }, [])
 
@@ -118,33 +122,35 @@ function App(): JSX.Element {
 
 
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      {/* <Carousel
+      <Carousel
         loop
         width={width}
-        height={width / 2}
+        height={Dimensions.get('window').height - 100 }
         autoPlay={true}
         data={images}
+        autoPlayInterval={8000}
         style={{flex : 1,alignItems : 'center',justifyContent : 'center'}}
         scrollAnimationDuration={1000}
         panGestureHandlerProps={{
           activeOffsetX: [-10, 10],
         }}
         onSnapToItem={(index) => console.log('current index:', index)}
-        renderItem={({ item,index }) => (
-          <View
-            style={{
-              flex: 1,
-              borderWidth: 1,
-              justifyContent: 'center',
-            }}
-          >
-            <>
-            {console.log("ITEMMEM",item)}
-            </>
-            <Image
+        renderItem={({ item,index }) => {
+          if(item.mimeType !== 'video/quicktime' && item.mimeType !== 'video/mp4' && item.mimeType !== 'application/pdf'){
+            console.log("inside Image");
+            
+            return(
+              <View
+              style={{
+                flex: 1,
+                borderWidth: 1,
+                justifyContent: 'center',
+              }}
+            >
+              <Image
               style={{
                 width: Dimensions.get('window').width - 20,
-                height: Dimensions.get('window').height,
+                height: Dimensions.get('window').height - 100,
                 marginVertical: 30,
                 alignSelf: 'center',
                 // aspectRatio : 40/100
@@ -153,11 +159,73 @@ function App(): JSX.Element {
                 uri: `http://192.168.43.194:4242/uploads/${item.name}`,
               }}
             />
-          </View>
-        )}
-      /> */}
+            </View>
+            )
+          }else if(item.mimeType !== 'application/pdf'){
+            console.log("inside Video");
+            return (
+            <View
+              style={{
+                flex: 1,
+                borderWidth: 1,
+                justifyContent: 'center',
+              }}
+            >
+            <Video source={{uri: `http://192.168.43.194:4242/uploads/${item.name}`}}   // Can be a URL or a local file.                                  // Store reference
+            paused={false}
+            repeat={true}
+            style={{
+              width: Dimensions.get('window').width - 20,
+              height: Dimensions.get('window').height -100,
+              marginVertical: 30,
+              alignSelf: 'center',
+              // aspectRatio : 90/50
+            }}
+            posterResizeMode={'cover'}
+            // controls={true}
+            />
+            </View> )
+          }else{ 
+            console.log("inside Pdf");
+            return(
+              <View
+              style={{
+                flex: 1,
+                borderWidth: 1,
+                justifyContent: 'center',
+              }}
+            >
+              <Pdf
+                    source={{ uri: `http://192.168.43.194:4242/uploads/${item.name}`, cache: true }}
+                    onLoadComplete={(numberOfPages,filePath) => {
+                        console.log(`Number of pages: ${numberOfPages}`);
+                    }}
+                    trustAllCerts={true}
+                    onPageChanged={(page,numberOfPages) => {
+                        console.log(`Current page: ${page}`);
+                    }}
+                    onError={(error) => {
+                        console.log(error);
+                    }}
+                    onPressLink={(uri) => {
+                        console.log(`Link pressed: ${uri}`);
+                    }}
+                    style={{
+                      flex:1,
+                      width:Dimensions.get('window').width,
+                      height:Dimensions.get('window').height,
+                  }}/>
+                  </View>
+            )
+             
+          }
+         
+             
+        }}
+      />
 
-      <App2/>
+      {/* <App2/> */}
+      {/* <AppParellax/> */}
       <Button
         onPress={() => {
           setLoop(!loop);
