@@ -26,19 +26,21 @@ import {
 import RNBootSplash from "react-native-bootsplash";
 import Carousel from 'react-native-reanimated-carousel';
 import { TAnimationStyle } from './src/layouts/BaseLayout';
-import Animated, { interpolate, interpolateColor, useAnimatedStyle } from 'react-native-reanimated';
+import Animated, { Extrapolate, interpolate, interpolateColor, useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
 import { SBItem } from './src/exampleExpo/src/components/SBItem';
 import App2 from './App2';
 import AppParellax from './AppParellax';
 import Video from 'react-native-video';
 import Pdf from 'react-native-pdf';
+import { ImageZoom } from '@likashefqet/react-native-image-zoom';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
   const width = Dimensions.get('window').width;
-
+  const progressValue = useSharedValue<number>(0);
   const [images, setImages] = useState([]);
   const [loop,setLoop] = useState(true);
   interface ItemProps {
@@ -102,6 +104,73 @@ function App(): JSX.Element {
     [],
   );
 
+  const PaginationItem: React.FC<{
+    index: number
+    backgroundColor: string
+    length: number
+    animValue: Animated.SharedValue<number>
+    isRotate?: boolean
+  }> = (props) => {
+    const { animValue, index, length, backgroundColor, isRotate } = props;
+    const width = 10;
+  
+    const animStyle = useAnimatedStyle(() => {
+      let inputRange = [index - 1, index, index + 1];
+      let outputRange = [-width, 0, width];
+  
+      if (index === 0 && animValue?.value > length - 1) {
+        inputRange = [length - 1, length, length + 1];
+        outputRange = [-width, 0, width];
+      }
+  
+      return {
+        transform: [
+          {
+            translateX: interpolate(
+              animValue?.value,
+              inputRange,
+              outputRange,
+              Extrapolate.CLAMP,
+            ),
+          },
+        ],
+      };
+    }, [animValue, index, length]);
+
+    return (
+        <View
+          onTouchEnd={() => {
+
+          }}
+          style={{
+            backgroundColor: "white",
+            width,
+            height: width,
+            borderRadius: 50,
+            overflow: "hidden",
+            transform: [
+              {
+                rotateZ: isRotate ? "90deg" : "0deg",
+              },
+            ],
+            borderColor : 'black',
+            borderWidth : 0.5
+          }}
+        >
+          <Animated.View
+            style={[
+              {
+                borderRadius: 50,
+                backgroundColor,
+                flex: 1,
+              },
+              animStyle,
+            ]}
+          />
+        </View>
+      );
+        }
+
   useEffect(() => {
     RNBootSplash.hide({ fade: true, duration: 5000 });
     console.log("Bootsplash has been hidden successfully");
@@ -120,7 +189,7 @@ function App(): JSX.Element {
 
   return (
 
-
+    <GestureHandlerRootView style={{ flex: 1 }}>
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Carousel
         loop
@@ -147,18 +216,23 @@ function App(): JSX.Element {
                 justifyContent: 'center',
               }}
             >
-              <Image
-              style={{
-                width: Dimensions.get('window').width - 20,
-                height: Dimensions.get('window').height - 100,
-                marginVertical: 30,
-                alignSelf: 'center',
-                // aspectRatio : 40/100
-              }}
-              source={{
-                uri: `http://192.168.43.194:4242/uploads/${item.name}`,
-              }}
-            />
+              
+            <ImageZoom
+            uri={
+               `http://192.168.43.194:4242/uploads/${item.name}`
+            }
+            minScale={0.5}
+            maxScale={3}
+            onInteractionStart={() => console.log('Interaction started')}
+            onInteractionEnd={() => console.log('Interaction ended')}
+            onPinchStart={() => console.log('Pinch gesture started')}
+            onPinchEnd={() => console.log('Pinch gesture ended')}
+            onPanStart={() => console.log('Pan gesture started')}
+            onPanEnd={() => console.log('Pan gesture ended')}
+            isPanEnabled={true}
+            isPinchEnabled={true}
+        //   renderLoader={() => <CustomLoader />}
+        />
             </View>
             )
           }else if(item.mimeType !== 'application/pdf'){
@@ -200,7 +274,7 @@ function App(): JSX.Element {
                     onLoadComplete={(numberOfPages,filePath) => {
                         console.log(`Number of pages: ${numberOfPages}`);
                     }}
-                    trustAllCerts={true}
+                    trustAllCerts={false}
                     onPageChanged={(page,numberOfPages) => {
                         console.log(`Current page: ${page}`);
                     }}
@@ -222,21 +296,49 @@ function App(): JSX.Element {
          
              
         }}
+        onProgressChange={(_, absoluteProgress) =>
+          (progressValue.value = absoluteProgress)
+        }
       />
+
+{!!progressValue && (
+        <View
+          style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                width: 100,
+                alignSelf: "center",
+                marginBottom : 10
+        }}
+        >
+          {images.map((backgroundColor, index) => {
+            return (
+              <PaginationItem
+                backgroundColor={"#5C6265"}
+                animValue={progressValue}
+                index={index}
+                key={index}
+                isRotate={false}
+                length={images.length}
+              />
+            );
+          })}
+        </View>
+      )}
 
       {/* <App2/> */}
       {/* <AppParellax/> */}
-      <Button
+      {/* <Button
         onPress={() => {
           setLoop(!loop);
         }}
         title={loop ? 'Turn off autoplay' : 'Turn on autoplay'}
         color={"red"}
-      />
+      /> */}
 
 
     </View>
-
+    </GestureHandlerRootView>
 
   );
 }
