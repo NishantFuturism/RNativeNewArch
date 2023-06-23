@@ -9,7 +9,9 @@ By installing this slider component, you will be able to render multiple documen
 
 
 
-<img src='assets/bootsplash_logo_original.png' alt='img' />
+<img src='assets/image.png' alt='img' />
+<img src='assets/pdf.png' alt='img' />
+<img src='assets/video.png' alt='img' />
 
 ## Installation
 
