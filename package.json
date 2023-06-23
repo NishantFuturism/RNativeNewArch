@@ -84,10 +84,11 @@
   "jest": {
     "preset": "react-native",
     "setupFiles": [
-      "/Users/nishanti/Desktop/RN/futurismts/jest/setup.js"
+      "/Users/nishanti/Desktop/RN/futurismts/jest/setup.js",
+      "./node_modules/react-native-gesture-handler/jestSetup.js"
     ],
     "transformIgnorePatterns": [
-      "node_modules/(?!((jest-)?react-native(-.*)?|@react-native(-community)?)/|react-native-reanimated-carousel|react-native-reanimated)"
+      "node_modules/(?!((jest-)?react-native(-.*)?|@react-native(-community)?)/|react-native-reanimated-carousel|react-native-reanimated|react-native-pdf|react-native-reanimated-carousel|react-native-reanimated|@likashefqet/react-native-image-zoom|react-native-blob-util|react-native-image-pan-zoom)"
     ]
   }
 }

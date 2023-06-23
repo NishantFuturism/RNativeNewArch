@@ -5,7 +5,7 @@
  * @format
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 // import type {PropsWithChildren} from 'react';
 import {
   SafeAreaView,
@@ -42,11 +42,12 @@ function App(): JSX.Element {
   const width = Dimensions.get('window').width;
   const progressValue = useSharedValue<number>(0);
   const [images, setImages] = useState([]);
-  const [loop,setLoop] = useState(true);
+
   interface ItemProps {
     index: number
     animationValue: Animated.SharedValue<number>
   }
+
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -176,19 +177,24 @@ function App(): JSX.Element {
     console.log("Bootsplash has been hidden successfully");
   }, []);
 
+
+
   useEffect(() => {
     fetch("http://192.168.43.194:4242/storage/getFiles").then(async res => {
       let response = await res.json();
       return response.files;
     }).then(final => {
       // setImages(final.filter(item => item.mimeType !== 'application/pdf'));
+      // setImagesIndex(final.filter(item => item.mimeType !== 'application/pdf' && item.mimeType !== 'video/mp4' && item.mimeType !== 'video/quicktime'))
       setImages(final);
     })
   }, [])
 
+ 
+
+
 
   return (
-
     <GestureHandlerRootView style={{ flex: 1 }}>
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Carousel
@@ -196,6 +202,7 @@ function App(): JSX.Element {
         width={width}
         height={Dimensions.get('window').height - 100 }
         autoPlay={true}
+        testID='CAROUSEL_ITEM_0_READY'
         data={images}
         autoPlayInterval={8000}
         style={{flex : 1,alignItems : 'center',justifyContent : 'center'}}
@@ -203,7 +210,7 @@ function App(): JSX.Element {
         panGestureHandlerProps={{
           activeOffsetX: [-10, 10],
         }}
-        onSnapToItem={(index) => console.log('current index:', index)}
+        onSnapToItem={(index) => {console.log('current index:', index)}}
         renderItem={({ item,index }) => {
           if(item.mimeType !== 'video/quicktime' && item.mimeType !== 'video/mp4' && item.mimeType !== 'application/pdf'){
             console.log("inside Image");

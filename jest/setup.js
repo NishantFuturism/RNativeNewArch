@@ -30,6 +30,11 @@ jest.mock('react-native/Libraries/Lists/FlatList', () => {
   });
 
 jest.mock("react-native-reanimated-carousel",() => "Carousel")
+
+jest.mock('react-native/Libraries/EventEmitter/NativeEventEmitter');
+ 
+jest.mock('react-native-blob-util', () => { return { DocumentDir: () => {}, polyfill: () => {}, }; });
+
 // jest.mock("react-native-reanimated/src/reanimated2/jestUtils",() => "advanceAnimationByTime")
 // // jest.mock("react-native-reanimated/src/reanimated2/jestUtils",() => "withReanimatedTimer")
 // jest.mock('react-native-reanimated/lib/reanimated2/jestUtils', () =>

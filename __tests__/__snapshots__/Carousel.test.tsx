@@ -5,6 +5,7 @@ import AppParellax from "/Users/nishanti/Desktop/RN/futurismts/AppParellax";
 import { advanceAnimationByTime, withReanimatedTimer } from "react-native-reanimated/src/reanimated2/jestUtils";
 import TestRenderer from 'react-test-renderer';
 import Animated from "react-native-reanimated";
+import App from "../../App";
 
 
   test("renders %s correctly", async () => {
@@ -100,3 +101,21 @@ expect(element).not.toBeFalsy();
 
 
 })
+
+test("Check render of Normal Carousel",() => {
+  // Please Enable Normal Carousel with Dotted Pagination
+  render(<App/>);
+  const element = screen.getByTestId("CAROUSEL_ITEM_0_READY",{
+    includeHiddenElements : true
+  });
+  console.log(element);
+  
+  expect(element).not.toBeUndefined();
+  // expect(element._fiber.stateNode.props.withAnimation).toStrictEqual({"config": {"damping": 13}, "type": "spring"})
+  expect(element).toBeDefined();
+  expect(element).not.toBeFalsy();
+  
+  // console.log(element);
+  
+  
+  })
