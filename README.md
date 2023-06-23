@@ -9,7 +9,7 @@ By installing this slider component, you will be able to render multiple documen
 
 
 
-<img src='assets/image.png' alt='img' />
+<img src='assets/Image.png' alt='img' />
 <img src='assets/pdf.png' alt='img' />
 <img src='assets/video.png' alt='img' />
 
