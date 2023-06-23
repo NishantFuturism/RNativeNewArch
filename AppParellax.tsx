@@ -11,6 +11,7 @@ import Carousel from "react-native-reanimated-carousel";
 import { ElementsText, window } from "./src/exampleExpo/src/constants";
 import { withAnchorPoint } from "./src/exampleExpo/src/utils/anchor-point";
 import { fruitItems } from "./src/exampleExpo/src/utils/items";
+import config from "./src/config";
 
 const colors = ["#fda282", "#fdba4e", "#800015"];
 
@@ -161,16 +162,11 @@ function AppParellax(props) {
     <View style={{ flex: 1 }}>
       <Carousel
         {...baseOptions}
-        loop
+        loop={config.loop}
         autoPlay={isAutoPlay}
-        withAnimation={{
-          type: "spring",
-          config: {
-            damping: 13,
-          },
-        }}
+        withAnimation={config.withAnimation}
         testID={"CAROUSEL_ITEM_0_READY"}
-        autoPlayInterval={1500}
+        autoPlayInterval={config.autoPlayInterval}
         data={props.colors ? props.colors : colors}
         renderItem={({ index, animationValue }) => (
           <Card

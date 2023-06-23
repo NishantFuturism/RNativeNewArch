@@ -34,6 +34,7 @@ import Video from 'react-native-video';
 import Pdf from 'react-native-pdf';
 import { ImageZoom } from '@likashefqet/react-native-image-zoom';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import config from './src/config';
 
 
 
@@ -198,19 +199,17 @@ function App(): JSX.Element {
     <GestureHandlerRootView style={{ flex: 1 }}>
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Carousel
-        loop
-        width={width}
-        height={Dimensions.get('window').height - 100 }
-        autoPlay={true}
+        loop={config.loop}
+        width={config.width}
+        height={config.height - 100 }
+        autoPlay={config.autoPlay}
         testID='CAROUSEL_ITEM_0_READY'
-        data={images}
-        autoPlayInterval={8000}
-        style={{flex : 1,alignItems : 'center',justifyContent : 'center'}}
-        scrollAnimationDuration={1000}
-        panGestureHandlerProps={{
-          activeOffsetX: [-10, 10],
-        }}
-        onSnapToItem={(index) => {console.log('current index:', index)}}
+        data={images ? images : config.data}
+        autoPlayInterval={config.autoPlayInterval}
+        style={config.style}
+        scrollAnimationDuration={config.scrollAnimationDuration}
+        panGestureHandlerProps={config.panGestureHandlerProps}
+        onSnapToItem={config.onSnapToItem}
         renderItem={({ item,index }) => {
           if(item.mimeType !== 'video/quicktime' && item.mimeType !== 'video/mp4' && item.mimeType !== 'application/pdf'){
             console.log("inside Image");

@@ -6,6 +6,7 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {Dimensions} from 'react-native';
 import {View} from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import config from './src/config';
 
 const {width: PAGE_WIDTH} = Dimensions.get('window');
 const App2 = () => {
@@ -19,14 +20,14 @@ const App2 = () => {
     <SafeAreaView style={backgroundStyle}>
       <GestureHandlerRootView>
       <Carousel
-        loop={true}
-        autoPlay={true}
-        snapEnabled={true}
-        scrollAnimationDuration={4000}
-        overscrollEnabled={true}
-        enabled={true}
-        width={PAGE_WIDTH}
-        height={PAGE_WIDTH / 2}
+        loop={config.loop}
+        autoPlay={config.autoPlay}
+        snapEnabled={config.snapEnabled}
+        scrollAnimationDuration={config.scrollAnimationDuration}
+        overscrollEnabled={config.overscrollEnabled}
+        enabled={config.enabled}
+        width={config.width}
+        height={config.width / 2}
         data={[...new Array(6).keys()]}
         renderItem={({index}) => (
           <View key={index}>
