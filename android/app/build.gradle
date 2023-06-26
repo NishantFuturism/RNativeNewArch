@@ -93,9 +93,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.futurismts"
+    namespace "com.futurismts.imageslider"
     defaultConfig {
-        applicationId "com.futurismts"
+        applicationId "com.futurismts.imageslider"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

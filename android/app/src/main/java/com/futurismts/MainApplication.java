@@ -1,4 +1,4 @@
-package com.futurismts;
+package com.futurismts.imageslider;
 
 import android.app.Application;
 import com.facebook.react.PackageList;

@@ -1,4 +1,4 @@
-package com.futurismts;
+package com.futurismts.imageslider;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
