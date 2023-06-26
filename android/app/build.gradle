@@ -93,9 +93,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.futurismts"
+    namespace "com.futurismts.menudrawer"
     defaultConfig {
-        applicationId "com.futurismts"
+        applicationId "com.futurismts.menudrawer"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
