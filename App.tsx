@@ -24,7 +24,7 @@ import {
 import RNBootSplash from "react-native-bootsplash";
 import ReusableDrawer from './src/ReusableDrawer';
 import 'react-native-gesture-handler';
-import { SuperCategoryData } from './src/DrawerDataConfig';
+import { menus } from './src/DrawerDataConfig';
 import { StackScreen } from './src/StackScreens';
 
 
@@ -42,22 +42,18 @@ function App(): JSX.Element {
   }, []);
 
   const configuration = {
-    drawerData : SuperCategoryData,
+    drawerData : menus,
     plusImgUrl : 'https://cdn-icons-png.flaticon.com/512/3524/3524388.png',
     minusImgUrl : 'https://thumbs.dreamstime.com/z/minus-sign-icon-vector-symbol-isolated-white-background-logo-concept-your-web-mobile-app-design-133735659.jpg',
-    subCatKeyName : 'subCategoryData',
-    childCatKeyName : 'childCategoryData',
+    subCatKeyName : 'title',
+    childCatKeyName : 'submenu',
     StackScreen : StackScreen
   }
 
   return (
-    
        <ReusableDrawer
        config={configuration}
-       />
-
-      
-      
+       />    
   );
 }
 

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {
   View,
   FlatList,
@@ -36,48 +36,60 @@ import {
   const  DrawerNavigator = (props) => {
   console.log("DrawerNavigator=====>>",props)
     const {subCatKeyName,minusImgUrl,plusImgUrl,drawerData,childCatKeyName} = props.config;
-    const [activeSuperCategoryIndex, setActiveSuperCategoryIndex] =  useState(null);
-    const [activeSubCategoryIndex, setActiveSubcategoryIndex] = useState(null);
-   
+    const [subMenuIndexes, setOfSubMenuIndexes] =  useState([]);
+    const [nestedLevels,setNestedLevels] = useState([]);
+    const [nestedMenus,setNestedMenus] = useState([]);
+    // const [activeSubCategoryIndex, setActiveSubcategoryIndex] = useState(null);
+    // const [renderDrawerTimes,setRenderDrawerTimes] = useState()
+    // const [activeTreeTracker,setActiveTreeTracker] = useState([0,2,4,5]);
+   let counter = -1;
     
-   
+   useEffect(() => {
+       console.log("activeSuperCategoryIndexactiveSuperCategoryIndex",subMenuIndexes);
+      //  renderMenus()
+   },[subMenuIndexes])
+
+   useEffect(() => {
+    if(nestedMenus){
+      if(nestedMenus.length > 0){
+        console.log(nestedMenus[0].submenu);
+      }
+    }
+   },[nestedMenus])
+
   
-    const renderDrawerItem = ({item, index}) => {
+    const renderSubmenus = ({item, index}) => {
       return (
         <>
           <TouchableOpacity
            style={{height : 50,width : '100%',backgroundColor : 'grey',justifyContent : 'space-between' ,alignItems : 'center',flexDirection : 'row',paddingHorizontal : 10}}
             activeOpacity={1}
             onPress={() => {
-              if(item[subCatKeyName].length > 0 && activeSuperCategoryIndex !== index){
-                setActiveSuperCategoryIndex(index);
-                setActiveSubcategoryIndex(null);
-              }else{
-                setActiveSuperCategoryIndex(null);
-                setActiveSubcategoryIndex(null);
+              console.log("index clicked",index);
+              // if(item.submenu && item.submenu.length > 0){
+              //   setOfSubMenuIndexes(oldArray => [...oldArray, index]);
+              // }
+              if(item.submenu && item.submenu.length > 0){
+                setNestedMenus(oldArray => [...oldArray, item]);
               }
+          
             }}>
             <Text
             style={{color : 'white'}}
              >
-              {item.name}
+              {item.title}
             </Text>
-            {item[subCatKeyName].length > 0 && (<Image
+            {item.submenu && item.submenu.length > 0 && (<Image
              style={{
               width: 15,
               height: 15 ,
             }}
              source={{
-             uri: activeSuperCategoryIndex !== null && activeSuperCategoryIndex === index ? minusImgUrl : plusImgUrl,
+             uri: nestedMenus.length > 0 && item.title == nestedMenus[nestedMenus.length - 1].title ? minusImgUrl : plusImgUrl,
         }}
       />)}
           </TouchableOpacity>
-    
-         {activeSuperCategoryIndex !== null && item[subCatKeyName].length > 0 && activeSuperCategoryIndex === index  && (<FlatList
-                    data={item[subCatKeyName]}
-                    renderItem={renderSubCategoryItems}
-                    keyExtractor={item => item.name}
-                  />)}
+         {item.submenu && nestedMenus.length > 0 && item.title == nestedMenus[nestedMenus.length - 1].title && renderMenus(item.submenu)}
 
             
           
@@ -86,97 +98,24 @@ import {
       );
     };
   
-    const renderSubCategoryItems = ({item, index}) => {
-      return (
-        <>
-          <TouchableOpacity
-            activeOpacity={1}
-            style={{
-              width: '100%',
-              height: 35,
-              justifyContent: 'space-between',
-              backgroundColor: '#ccc',
-              paddingHorizontal : 5,
-              alignItems : 'center',
-              flexDirection : 'row'
-            }}
-            onPress={() => {
-              if(item[childCatKeyName].length > 0 && activeSubCategoryIndex !== index){
-                setActiveSubcategoryIndex(index);
-              }else{
-                setActiveSubcategoryIndex(null);
-              }
-            }}>
-            
-              <Text
-                style={{
-                  marginLeft: 30,
-                  color: '#000',
-                  // fontFamily: 'CeraPRO-Medium',
-                  fontSize: 13,
-                }}>
-                {item.name}
-              </Text>
-              {item[childCatKeyName].length > 0 && (<Image
-             style={{
-              width: 15,
-              height: 15 ,
-            }}
-             source={{
-             uri: activeSubCategoryIndex !== null && activeSubCategoryIndex === index ? minusImgUrl : plusImgUrl,
-        }}
-      />)}
-          </TouchableOpacity>
-          {activeSubCategoryIndex !== null && item[childCatKeyName].length > 0 && activeSubCategoryIndex === index && (<FlatList
-                    data={item[childCatKeyName]}
-                    renderItem={renderChildCategoryItems}
-                    keyExtractor={item => item.name}
-                  />)}
-          <View style={{height: 1, width: '100%', backgroundColor: '#dddddd'}} />
-        </>
-      );
-    };
-
-    const renderChildCategoryItems = ({item, index}) => {
-      return (
-        <>
-          <TouchableOpacity
-            activeOpacity={1}
-            style={{
-              width: '100%',
-              height: 35,
-              justifyContent: 'center',
-              backgroundColor: 'olive',
-            }}
-            onPress={() => {
-             console.log("childCategory clicked")
-            }}>
-            <View>
-              <Text
-                style={{
-                  marginLeft: 30,
-                  color: 'white',
-                  // fontFamily: 'CeraPRO-Medium',
-                  fontSize: 13,
-                }}>
-                {item.name}
-              </Text>
-            </View>
-          </TouchableOpacity>
-          
-          <View style={{height: 1, width: '100%', backgroundColor: '#dddddd'}} />
-        </>
-      );
-    };
+ 
+    const renderMenus = useCallback((drawerData) => {
+      // console.log("renderParentItem",index);
+      {counter++}
+      {console.log("counter",counter)}
+      return(
+        <FlatList
+          data={drawerData}
+          renderItem={renderSubmenus}
+          keyExtractor={(item,index) => index.toString()}
+        />
+      )
+    },[nestedMenus])
   
   
     return (
       <>
-        <FlatList
-          data={drawerData}
-          renderItem={renderDrawerItem}
-          keyExtractor={item => item.name}
-        />
+       {renderMenus(drawerData)}
       </>
     );
   }
